@@ -1,8 +1,8 @@
+
 //http://aleph0.clarku.edu/~djoyce/ma131/gallery.pdf
 /*sin(u)*sinv
 cosu*sinv
 cosu
-
 */
 FloatList xvals=new FloatList();
 FloatList yvals=new FloatList();
@@ -35,18 +35,28 @@ String zexp="v";*/
 /*String xexp="v*sinu";
 String yexp="v*cosu";
 String zexp="v";*/
-//d=4  c=3 a=1 b=3
-/*String xexp="(4*(3-cosu*cosv)+9*cosu)/(1-3*cosu*cosv)";
-String yexp="(3*sinu*(1-4*cosv))/(1-3*cosu*cosv)";
-String zexp="(3*sinv*(3*cosu-4))/(1-3*cosu*cosv)";*/
+//cyclides
+//d=5  c=5 a=13 b=12   // a>b>0  c^2=a^2-b^2 d>0
+//horn cyclide
+/*String xexp="(5*(5-13*cosu*cosv)+144*cosu)/(13-5*cosu*cosv)";
+String yexp="(12*sinu*(13-5*cosv))/(13-5*cosu*cosv)";
+String zexp="(12*sinv*(5*cosu-5))/(13-5*cosu*cosv)";*/
+//ring cyclide    same as before but d=8
+String xexp="(8*(5-13*cosu*cosv)+144*cosu)/(13-5*cosu*cosv)";
+String yexp="(12*sinu*(13-8*cosv))/(13-5*cosu*cosv)";
+String zexp="(12*sinv*(5*cosu-8))/(13-5*cosu*cosv)";
 //mobius strip:
-String xexp="(1+(v/2)*cos(u/2))*cosu";
+/*String xexp="(1+(v/2)*cos(u/2))*cosu";
 String yexp="(1+(v/2)*cos(u/2))*sinu";
-String zexp="(v/2)*sin(u/2)";
+String zexp="(v/2)*sin(u/2)";*/
 //mob#2
 /*String xexp="cos(u/2)+cos(u/4)*cos(v/2)";
 String yexp="sin(u/2)+cos(u/4)*sin(v/2)";
 String zexp="sin(u/4+p/2)";*/
+//mob3
+/*String xexp="(1+(v/(4*p))*cos((u/2+p)/2))*cos(u/2+p)";
+String yexp="(1+(v/(4*p))*cos(u/2+p))*sin(u/2+p)";
+String zexp="(v/(4*p))*sin((u/2+p)/2)";*/
 //torus!
 /*String xexp="(3+cosv)*cosu";
 String yexp="(3+cosv)*sinu";
@@ -59,6 +69,10 @@ String zexp="sin(u/2)*sinv+cos(u/2)*sin(2*v)";*/
 /*String xexp="sinv*(1+u^2)^0.5";
 String yexp="cosv*(1+u^2)^0.5";
 String zexp="u";*/
+//bottle shape
+/*String xexp="(-2/15)*cosu*(3*cosv-30*sinu+90*(cosu^4)*sinu-60*(cosu^6)*sinu+5*cosu*cosv*sinu)";
+String zexp="(-1/15)*sinu*(3*cosv-3*(cosu^2)*cosv-48*(cosu^4)*cosv+48*(cosu^6)*cosv-60*sinu+5*cosu*cosv*sinu-5*(cosu^3)*cosv*sinu-80*(cosu^5)*cosv*sinu+80*(cosu^7)*cosv*sinu)";
+String yexp="(2/15)*(3+5*cosu*sinu)*sinv";*/
 String tempexp="";
 void setup(){
       size(500, 450,P3D);
