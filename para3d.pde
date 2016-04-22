@@ -1,5 +1,6 @@
-
 //http://aleph0.clarku.edu/~djoyce/ma131/gallery.pdf
+//http://paulbourke.net/geometry/klein/
+//http://arxiv.org/pdf/0909.5354.pdf
 /*sin(u)*sinv
 cosu*sinv
 cosu
@@ -29,6 +30,14 @@ float zmax; float zmin;
 float dheight;
 boolean paused=false;
 //x  y z expressions
+//heart
+/*String xexp="(13*cosu-5*cos(2*u)-2*cos(3*u)-cos(4*u))";
+String yexp="sinu^3*sinv";
+String zexp="(sinu^3)*cosv";*/
+//trefoilKnot
+/*String xexp="(sin(u)+2*sin(2*u))";
+String yexp="(cos(u)-2*cos(2*u))";
+String zexp="(-1*sin(3*u))";*/
 /*String xexp="sinu";
 String yexp="cosu";
 String zexp="v";*/
@@ -42,13 +51,13 @@ String zexp="v";*/
 String yexp="(12*sinu*(13-5*cosv))/(13-5*cosu*cosv)";
 String zexp="(12*sinv*(5*cosu-5))/(13-5*cosu*cosv)";*/
 //ring cyclide    same as before but d=8
-String xexp="(8*(5-13*cosu*cosv)+144*cosu)/(13-5*cosu*cosv)";
+/*String xexp="(8*(5-13*cosu*cosv)+144*cosu)/(13-5*cosu*cosv)";
 String yexp="(12*sinu*(13-8*cosv))/(13-5*cosu*cosv)";
-String zexp="(12*sinv*(5*cosu-8))/(13-5*cosu*cosv)";
-//mobius strip:
-/*String xexp="(1+(v/2)*cos(u/2))*cosu";
-String yexp="(1+(v/2)*cos(u/2))*sinu";
-String zexp="(v/2)*sin(u/2)";*/
+String zexp="(12*sinv*(5*cosu-8))/(13-5*cosu*cosv)";/*
+//mobius strip:  /2
+/*String xexp="(1+(v/4)*cos(u/4))*cos(u/2)";
+String yexp="(1+(v/4)*cos(u/4))*sin(u/2)";
+String zexp="(v/4)*sin(u/4)";*/
 //mob#2
 /*String xexp="cos(u/2)+cos(u/4)*cos(v/2)";
 String yexp="sin(u/2)+cos(u/4)*sin(v/2)";
@@ -73,6 +82,16 @@ String zexp="u";*/
 /*String xexp="(-2/15)*cosu*(3*cosv-30*sinu+90*(cosu^4)*sinu-60*(cosu^6)*sinu+5*cosu*cosv*sinu)";
 String zexp="(-1/15)*sinu*(3*cosv-3*(cosu^2)*cosv-48*(cosu^4)*cosv+48*(cosu^6)*cosv-60*sinu+5*cosu*cosv*sinu-5*(cosu^3)*cosv*sinu-80*(cosu^5)*cosv*sinu+80*(cosu^7)*cosv*sinu)";
 String yexp="(2/15)*(3+5*cosu*sinu)*sinv";*/
+//a=5
+//curly bottle
+/*String xexp = "cos(u/2)*(5+sin(v/2)*cos(u/4)-sin(v)*sin(u/4)/2)";
+String yexp = "sin(u/2)*(5+sin(v/2)*cos(u/4)-sin(v)*sin(u/4)/2)";
+String zexp = "sin(u/4)*sin(v/2)+cos(u/4)*sin(v)/2";*/
+String xexp = "6*cosu*(1+sinu)+sinv*sinu*sin(u/8+p/4)";
+String yexp = "16*sinu+sinv*cosu*sin(u/8+p/4)";
+String zexp="u";
+//"cosv*sin(u/8+p/4)"
+//String zexp = "((11/2)-(2/5)*(u-p)*(u*(2*p-u))^0.5)+sin(u)";
 String tempexp="";
 void setup(){
       size(500, 450,P3D);
