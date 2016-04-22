@@ -1,3 +1,9 @@
+//http://aleph0.clarku.edu/~djoyce/ma131/gallery.pdf
+/*sin(u)*sinv
+cosu*sinv
+cosu
+
+*/
 FloatList xvals=new FloatList();
 FloatList yvals=new FloatList();
 FloatList zvals=new FloatList();
@@ -34,9 +40,17 @@ String zexp="v";*/
 String yexp="(3*sinu*(1-4*cosv))/(1-3*cosu*cosv)";
 String zexp="(3*sinv*(3*cosu-4))/(1-3*cosu*cosv)";*/
 //mobius strip:
-/*String xexp="(1+(v/2)*cos(u/2))*cosu";
+String xexp="(1+(v/2)*cos(u/2))*cosu";
 String yexp="(1+(v/2)*cos(u/2))*sinu";
-String zexp="(v/2)*sin(u/2)";*/
+String zexp="(v/2)*sin(u/2)";
+//mob#2
+/*String xexp="cos(u/2)+cos(u/4)*cos(v/2)";
+String yexp="sin(u/2)+cos(u/4)*sin(v/2)";
+String zexp="sin(u/4+p/2)";*/
+//torus!
+/*String xexp="(3+cosv)*cosu";
+String yexp="(3+cosv)*sinu";
+String zexp="5*sinv";*/
 //Klein bottle
 /*
 String xexp="(3+cos(u/2)*sinv-sin(u/2)*sin(v*2))*cosu";
@@ -197,7 +211,7 @@ void keyPressed(){
        zscale=dheight/450;
    }
    if((key=='p'||key=='P')&&typing==0){
-     if(!paused){paused=true;}else{   paused=false;}
+      println(xexp); println(yexp); println(zexp);println("");
    }
    if(keyCode==LEFT){
       ry-=5*PI/180;
