@@ -18,80 +18,25 @@ float xscale=1;
 float yscale=1;
 float zscale=1;
 float autoscale=1;
-int typing=0;
+int typing=0;  //typing changes meaning based on number   0:not typing  1: typing x exp 2: typing y exp 3: typing z exp  4: typing u start 5: typing u end   6: z start 7: zend
 float maxval=0;
 float ry=0;
 float rx=0;
-double startval=-2*PI;
-double endval=2*PI;
 int numofintervals=80;
 float rz=0;
 float zmax; float zmin;
 float dheight;
 boolean paused=false;
+String ustartval="0";
+String uendval="2*p";
+String vstartval="-2*p";
+String vendval="2*p";
 //x  y z expressions
-//heart
-/*String xexp="(13*cosu-5*cos(2*u)-2*cos(3*u)-cos(4*u))";
-String yexp="sinu^3*sinv";
-String zexp="(sinu^3)*cosv";*/
-//trefoilKnot
-/*String xexp="(sin(u)+2*sin(2*u))";
-String yexp="(cos(u)-2*cos(2*u))";
-String zexp="(-1*sin(3*u))";*/
-/*String xexp="sinu";
-String yexp="cosu";
-String zexp="v";*/
-/*String xexp="v*sinu";
-String yexp="v*cosu";
-String zexp="v";*/
-//cyclides
-//d=5  c=5 a=13 b=12   // a>b>0  c^2=a^2-b^2 d>0
-//horn cyclide
-/*String xexp="(5*(5-13*cosu*cosv)+144*cosu)/(13-5*cosu*cosv)";
-String yexp="(12*sinu*(13-5*cosv))/(13-5*cosu*cosv)";
-String zexp="(12*sinv*(5*cosu-5))/(13-5*cosu*cosv)";*/
-//ring cyclide    same as before but d=8
-/*String xexp="(8*(5-13*cosu*cosv)+144*cosu)/(13-5*cosu*cosv)";
-String yexp="(12*sinu*(13-8*cosv))/(13-5*cosu*cosv)";
-String zexp="(12*sinv*(5*cosu-8))/(13-5*cosu*cosv)";/*
-//mobius strip:  /2
-/*String xexp="(1+(v/4)*cos(u/4))*cos(u/2)";
-String yexp="(1+(v/4)*cos(u/4))*sin(u/2)";
-String zexp="(v/4)*sin(u/4)";*/
-//mob#2
-/*String xexp="cos(u/2)+cos(u/4)*cos(v/2)";
-String yexp="sin(u/2)+cos(u/4)*sin(v/2)";
-String zexp="sin(u/4+p/2)";*/
-//mob3
-/*String xexp="(1+(v/(4*p))*cos((u/2+p)/2))*cos(u/2+p)";
-String yexp="(1+(v/(4*p))*cos(u/2+p))*sin(u/2+p)";
-String zexp="(v/(4*p))*sin((u/2+p)/2)";*/
-//torus!
-/*String xexp="(3+cosv)*cosu";
-String yexp="(3+cosv)*sinu";
-String zexp="5*sinv";*/
-//Klein bottle
-/*
-String xexp="(3+cos(u/2)*sinv-sin(u/2)*sin(v*2))*cosu";
-String yexp="(3+cos(u/2)*sinv-sin(u/2)*sin(v*2))*sinu";
-String zexp="sin(u/2)*sinv+cos(u/2)*sin(2*v)";*/
-/*String xexp="sinv*(1+u^2)^0.5";
-String yexp="cosv*(1+u^2)^0.5";
-String zexp="u";*/
-//bottle shape
-/*String xexp="(-2/15)*cosu*(3*cosv-30*sinu+90*(cosu^4)*sinu-60*(cosu^6)*sinu+5*cosu*cosv*sinu)";
-String zexp="(-1/15)*sinu*(3*cosv-3*(cosu^2)*cosv-48*(cosu^4)*cosv+48*(cosu^6)*cosv-60*sinu+5*cosu*cosv*sinu-5*(cosu^3)*cosv*sinu-80*(cosu^5)*cosv*sinu+80*(cosu^7)*cosv*sinu)";
-String yexp="(2/15)*(3+5*cosu*sinu)*sinv";*/
-//a=5
-//curly bottle
-/*String xexp = "cos(u/2)*(5+sin(v/2)*cos(u/4)-sin(v)*sin(u/4)/2)";
+String xexp = "cos(u/2)*(5+sin(v/2)*cos(u/4)-sin(v)*sin(u/4)/2)";
 String yexp = "sin(u/2)*(5+sin(v/2)*cos(u/4)-sin(v)*sin(u/4)/2)";
-String zexp = "sin(u/4)*sin(v/2)+cos(u/4)*sin(v)/2";*/
-String xexp = "6*cosu*(1+sinu)+sinv*sinu*sin(u/8+p/4)";
-String yexp = "16*sinu+sinv*cosu*sin(u/8+p/4)";
-String zexp="u";
-//"cosv*sin(u/8+p/4)"
-//String zexp = "((11/2)-(2/5)*(u-p)*(u*(2*p-u))^0.5)+sin(u)";
+String zexp = "sin(u/4)*sin(v/2)+cos(u/4)*sin(v)/2";
+
+
 String tempexp="";
 void setup(){
       size(500, 450,P3D);
@@ -116,13 +61,18 @@ void draw(){
     else{
       text("X-Y axis Tilt",10,80,0);
     }
-    if (typing!=0){fill(#f42121);}
-    text("x= "+xexp,10,20,0);
-    text("y= "+yexp,10,40,0);
-    text("z= "+zexp,10,60,0);
-    fill(0);
+    //highlighting what expresssions you are typing in red
+    if (typing==1){fill(#f42121);}
+    text("x= "+xexp,10,20,0);    fill(0);
+    if (typing==2){fill(#f42121);}
+    text("y= "+yexp,10,40,0);   fill(0);
+    if (typing==3){fill(#f42121);}
+    text("z= "+zexp,10,60,0);    fill(0);
     textAlign(RIGHT);
-    text(zmin+"≤z≤"+zmax,width-10,20,0);
+    if(typing==4||typing==5){fill(#f42121);}
+    text(ustartval+"≤u≤"+uendval,width-10,20,0); fill(0);
+    if(typing==6||typing==7){fill(#f42121);}
+    text(vstartval+"≤v≤"+vendval,width-10,40,0); fill(0);
     textAlign(LEFT);
     translate(width/2,height/2,0);
     rotateY(timer2*PI/180);
@@ -176,7 +126,8 @@ void drawU(int i){
 }
 void calculate(){
   xvals.clear(); yvals.clear(); zvals.clear();
-  parse.parainterp(xexp,yexp,zexp,startval,endval,(endval-startval)/numofintervals);
+  //println(parse.interp(ustartval));
+  parse.parainterp(xexp,yexp,zexp,parse.interp(ustartval),parse.interp(uendval),parse.interp(vstartval),parse.interp(vendval),numofintervals);
   for (int i=0;i<parse.xreturnlist.size();i++){
        xvals.append(10*parse.xreturnlist.get(i).floatValue());
        yvals.append(10*parse.yreturnlist.get(i).floatValue());
@@ -261,12 +212,24 @@ void keyPressed(){
        zexp=""; typing++;}
        else if(typing==3){ 
           typing=0; rx=0; rz=0; timer2=0;  calculate();}
+       else if(typing==4){ 
+          typing=5; uendval="";}
+       else if(typing==5){ 
+          typing=0; rx=0; rz=0; timer2=0;  calculate();}
+       else if(typing==6){ 
+          typing=7; vendval="";}
+       else if(typing==7){ 
+          typing=0; rx=0; rz=0; timer2=0;  calculate();}
    }
    if(typing!=0){
       if(keyCode!=SHIFT && keyCode!=ENTER && keyCode!=BACKSPACE && keyCode!=DELETE){
          if(typing==1){xexp=xexp+Character.toString(key);}
          if(typing==2){yexp=yexp+Character.toString(key);}
          if(typing==3){zexp=zexp+Character.toString(key);}
+         if(typing==4){ustartval=ustartval+Character.toString(key);}
+         if(typing==5){uendval=uendval+Character.toString(key);}
+         if(typing==6){vstartval=vstartval+Character.toString(key);}
+         if(typing==7){vendval=vendval+Character.toString(key);}
       //print(key);
       }
    }
@@ -278,6 +241,20 @@ void keyPressed(){
       }
       if(typing==3){zexp=zexp.substring(0,zexp.length()-1);
       }
+      if(typing==4){ustartval=ustartval.substring(0,zexp.length()-1);
+      }
+      if(typing==5){uendval=uendval.substring(0,zexp.length()-1);
+      }
+      if(typing==6){vstartval=vstartval.substring(0,zexp.length()-1);
+      }
+      if(typing==7){vendval=vendval.substring(0,zexp.length()-1);
+      }
+   }
+    if((key=='u'||key=='U') && typing==0){
+      typing=4; ustartval="";
+   }
+   if((key=='v'||key=='V') && typing==0){
+      typing=6; vstartval="";
    }
 }
 void mouseClicked(){

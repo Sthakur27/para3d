@@ -11,6 +11,7 @@ public class pObj{
          if(str.equals("e")){num=Math.E;}
          else if(str.equals("p")){num=Math.PI;}
          else{
+         //System.out.println(str);
          num=Double.parseDouble(str);}
       }
       if(mode==1){

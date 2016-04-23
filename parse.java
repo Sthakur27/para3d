@@ -10,59 +10,32 @@ public class parse{
     static ArrayList<Double> xreturnlist=new ArrayList<>();
     static ArrayList<Double> yreturnlist=new ArrayList<>();
     static ArrayList<Double> zreturnlist=new ArrayList<>();
-    public static void parainterp(String str1, String str2, String str3, double start, double end, double step){
+    public static void parainterp(String str1, String str2, String str3, double ustart, double uend,double vstart, double vend, double numofsteps){
+        //evaluates every string and fills values in corresponding returnlist.  to access the list use parse.xreturnlist etc
         xreturnlist.clear();
         yreturnlist.clear();
         zreturnlist.clear();
-        //for every y value on interval 
-        for(double i=start;i<=end;i+=step){
-          //for every x value on interval
-          for (double j=start;j<=end; j+=step){
-             if(str1.equals("")){
-               xreturnlist.add(0.0);
+        interponevar(xreturnlist,str1,ustart,uend,vstart,vend,(uend-ustart)/numofsteps,(vend-vstart)/numofsteps);
+        interponevar(yreturnlist,str2,ustart,uend,vstart,vend,(uend-ustart)/numofsteps,(vend-vstart)/numofsteps);
+        interponevar(zreturnlist,str3,ustart,uend,vstart,vend,(uend-ustart)/numofsteps,(vend-vstart)/numofsteps);
+    }
+    public static void interponevar(ArrayList<Double> list,String str, double ustart, double uend, double vstart, double vend, double ustep,double vstep){
+      //for every u val  
+      for(double u=ustart;u<=uend;u+=ustep){
+          //for every v value on interval
+          for (double v=vstart;v<=vend; v+=vstep){
+             if(str.equals("")){
+               list.add(0.0);
              }
              else{
-                 String temp=str1.replaceAll("u","("+Double.toString(i)+")");
-                 exp=temp.replaceAll("v","("+Double.toString(j)+")");
+                 String temp=str.replaceAll("u","("+Double.toString(u)+")");
+                 exp=temp.replaceAll("v","("+Double.toString(v)+")");
+                 //System.out.println(exp);
                  classify();
                  fulleval();
                  double answer=pobs.get(0).num;
                  pobs.clear();
-                 xreturnlist.add(answer);            
-             }
-          }
-        }  
-        for(double i=start;i<=end;i+=step){
-          //for every x value on interval
-          for (double j=start;j<=end; j+=step){
-             if(str2.equals("")){
-               yreturnlist.add(0.0);
-             }
-             else{
-                 String temp=str2.replaceAll("u","("+Double.toString(i)+")");
-                 exp=temp.replaceAll("v","("+Double.toString(j)+")");
-                 classify();
-                 fulleval();
-                 double answer=pobs.get(0).num;
-                 pobs.clear();
-                 yreturnlist.add(answer);            
-             }
-          }
-        }  
-        for(double i=start;i<=end;i+=step){
-          //for every x value on interval
-          for (double j=start;j<=end; j+=step){
-             if(str3.equals("")){
-               zreturnlist.add(0.0);
-             }
-             else{
-                 String temp=str3.replaceAll("u","("+Double.toString(i)+")");
-                 exp=temp.replaceAll("v","("+Double.toString(j)+")");
-                 classify();
-                 fulleval();
-                 double answer=pobs.get(0).num;
-                 pobs.clear();
-                 zreturnlist.add(answer);           
+                 list.add(answer);            
              }
           }
         }  
@@ -99,6 +72,10 @@ public class parse{
             else if(type4.indexOf(temp[i])!=-1){
                pobs.add(new pObj(3,Character.toString(exp.charAt(i))));
                i+=2;
+            }
+            else if(temp[i]=='E'){
+               //System.out.println("ok");
+               pobs.add(new pObj(2,"*"));pobs.add(new pObj(1,"10")); pobs.add(new pObj(2,"^"));
             }
             else{pobs.add(new pObj(0,Character.toString(exp.charAt(i))));}
         }
