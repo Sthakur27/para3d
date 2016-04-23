@@ -1,9 +1,8 @@
 //http://aleph0.clarku.edu/~djoyce/ma131/gallery.pdf
 //http://paulbourke.net/geometry/klein/
 //http://arxiv.org/pdf/0909.5354.pdf
-/*sin(u)*sinv
-cosu*sinv
-cosu
+/*
+Note: For some reason, do not start or end v parameter on "0"
 */
 FloatList xvals=new FloatList();
 FloatList yvals=new FloatList();
@@ -28,13 +27,14 @@ float zmax; float zmin;
 float dheight;
 boolean paused=false;
 String ustartval="0";
-String uendval="2*p";
-String vstartval="-2*p";
-String vendval="2*p";
+String uendval="2.01*p";
+String vstartval="-p";
+String vendval="p";
 //x  y z expressions
-String xexp = "cos(u/2)*(5+sin(v/2)*cos(u/4)-sin(v)*sin(u/4)/2)";
-String yexp = "sin(u/2)*(5+sin(v/2)*cos(u/4)-sin(v)*sin(u/4)/2)";
-String zexp = "sin(u/4)*sin(v/2)+cos(u/4)*sin(v)/2";
+
+String xexp = "20*(1-cosu)";
+String yexp = "8*sinu*(1-cosu)+3*sinv*(((1/8)*(u*(5.5/(2*p)))*(u*(5.5/(2*p))-5.5)*(u*(5.5/(2*p))-2))+2)";
+String zexp="cosv*(((1/8)*(u*(5.5/(2*p)))*(u*(5.5/(2*p))-5.5)*(u*(5.5/(2*p))-2))+2)";
 
 
 String tempexp="";
@@ -68,12 +68,14 @@ void draw(){
     text("y= "+yexp,10,40,0);   fill(0);
     if (typing==3){fill(#f42121);}
     text("z= "+zexp,10,60,0);    fill(0);
+    
     textAlign(RIGHT);
     if(typing==4||typing==5){fill(#f42121);}
     text(ustartval+"≤u≤"+uendval,width-10,20,0); fill(0);
     if(typing==6||typing==7){fill(#f42121);}
     text(vstartval+"≤v≤"+vendval,width-10,40,0); fill(0);
     textAlign(LEFT);
+    
     translate(width/2,height/2,0);
     rotateY(timer2*PI/180);
     rotateY(ry);
@@ -103,7 +105,7 @@ void draw(){
     stroke(#aa03eb);
     
     //draw function
-    //xvals.size()-2
+    //<xvals.size()-1
     for (int i=0;i<xvals.size()-2;i++){
       //i!=80  i!=161
         if((i+1)%81!=0){
@@ -241,13 +243,13 @@ void keyPressed(){
       }
       if(typing==3){zexp=zexp.substring(0,zexp.length()-1);
       }
-      if(typing==4){ustartval=ustartval.substring(0,zexp.length()-1);
+      if(typing==4){ustartval=ustartval.substring(0,ustartval.length()-1);
       }
-      if(typing==5){uendval=uendval.substring(0,zexp.length()-1);
+      if(typing==5){uendval=uendval.substring(0,uendval.length()-1);
       }
-      if(typing==6){vstartval=vstartval.substring(0,zexp.length()-1);
+      if(typing==6){vstartval=vstartval.substring(0,vstartval.length()-1);
       }
-      if(typing==7){vendval=vendval.substring(0,zexp.length()-1);
+      if(typing==7){vendval=vendval.substring(0,vendval.length()-1);
       }
    }
     if((key=='u'||key=='U') && typing==0){

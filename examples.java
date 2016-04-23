@@ -4,47 +4,75 @@ heart
 String xexp="(13*cosu-5*cos(2*u)-2*cos(3*u)-cos(4*u))";
 String yexp="sinu^3*sinv";
 String zexp="(sinu^3)*cosv";
-trefoilKnot
+
+3dify/Bubble expressions  -2p 2p
+String xexp = "u+cosv";
+String yexp = "sinu+cosv";
+String zexp="0+sinv";
+
+trefoilKnot  -p p
 String xexp="(sin(u)+2*sin(2*u))";
 String yexp="(cos(u)-2*cos(2*u))";
 String zexp="(-1*sin(3*u))";
+
 String xexp="sinu";
 String yexp="cosu";
 String zexp="v";
+
 String xexp="v*sinu";
 String yexp="v*cosu";
 String zexp="v";
+
 cyclides
 d=5  c=5 a=13 b=12    a>b>0  c^2=a^2-b^2 d>0
+
 horn cyclide
 String xexp="(5*(5-13*cosu*cosv)+144*cosu)/(13-5*cosu*cosv)";
 String yexp="(12*sinu*(13-5*cosv))/(13-5*cosu*cosv)";
 String zexp="(12*sinv*(5*cosu-5))/(13-5*cosu*cosv)";
+
 ring cyclide    same as before but d=8
 String xexp="(8*(5-13*cosu*cosv)+144*cosu)/(13-5*cosu*cosv)";
 String yexp="(12*sinu*(13-8*cosv))/(13-5*cosu*cosv)";
 String zexp="(12*sinv*(5*cosu-8))/(13-5*cosu*cosv)";
+
+Symmetrical horn cyclide
+String xexp="(0*(5-13*cosu*cosv)+144*cosu)/(13-5*cosu*cosv)";
+String yexp="(12*sinu*(13-0*cosv))/(13-5*cosu*cosv)";
+String zexp="(12*sinv*(5*cosu-0))/(13-5*cosu*cosv)";
+
+parabolic cyclide
+k={0.5,1,1.5}
+String xexp="(2*v^2+0.5*(1-u^2-v^2))/(1+u^2+v^2)";
+String yexp="u*(v^2+0.5)/(1+u^2+v^2)";
+String zexp="v*(1+u^2-0.5)/(1+u^2+v^2)";
+
 mobius strip:  /2
 String xexp="(1+(v/4)*cos(u/4))*cos(u/2)";
 String yexp="(1+(v/4)*cos(u/4))*sin(u/2)";
 String zexp="(v/4)*sin(u/4)";
+
 mob#2
 String xexp="cos(u/2)+cos(u/4)*cos(v/2)";
 String yexp="sin(u/2)+cos(u/4)*sin(v/2)";
 String zexp="sin(u/4+p/2)";
+
 mob3
 String xexp="(1+(v/(4*p))*cos((u/2+p)/2))*cos(u/2+p)";
 String yexp="(1+(v/(4*p))*cos(u/2+p))*sin(u/2+p)";
 String zexp="(v/(4*p))*sin((u/2+p)/2)";
+
 torus!
 String xexp="(3+cosv)*cosu";
 String yexp="(3+cosv)*sinu";
 String zexp="5*sinv";
-Klein bottle
 
+Klein bottle
 String xexp="(3+cos(u/2)*sinv-sin(u/2)*sin(v*2))*cosu";
 String yexp="(3+cos(u/2)*sinv-sin(u/2)*sin(v*2))*sinu";
 String zexp="sin(u/2)*sinv+cos(u/2)*sin(2*v)";
+
+hel something
 String xexp="sinv*(1+u^2)^0.5";
 String yexp="cosv*(1+u^2)^0.5";
 String zexp="u";
@@ -76,8 +104,18 @@ String xexp = "1/(u^4+1)";
 String yexp = "((u^2+u+1)/(u^4+1))+0.05*sinv*(2+1.9*sin(u/4))";
 String zexp="0.05*cosv*(2+1.9*sin(u/4))";
 
-REAL BOTTLE! 0 2p -2p 2p
+Klein BOTTLE! 0 2.01p -p p
 String xexp = "20*(1-cosu)";
 String yexp = "8*sinu*(1-cosu)+3*sinv*(2-cos(u/2))";
 String zexp="cosv*(2-cos(u/2))";
+
+REAL KLEIN BOTTLE!! Wraps into itself!
+String xexp = "20*(1-cosu)";
+String yexp = "8*sinu*(1-cosu)+3*sinv*(2*p+((2*p)/(2.4*p-u))-((2*p)/(u+2.1))-(u+2))";
+String zexp="cosv*(2*p+((2*p)/(2.4*p-u))-((2.072*p)/(u+2.1))-(u+2))";p))-2)+2)";
+
+2nd KLEIN BOTTLE!! Wraps into itself!
+String xexp = "20*(1-cosu)";
+String yexp = "8*sinu*(1-cosu)+3*sinv*(((1/8)*(u*(5.5/(2*p)))*(u*(5.5/(2*p))-5.5)*(u*(5.5/(2*p))-2))+2)";
+String zexp="cosv*(((1/8)*(u*(5.5/(2*p)))*(u*(5.5/(2*p))-5.5)*(u*(5.5/(2*p))-2))+2)";
 */

@@ -21,7 +21,7 @@ public class parse{
     }
     public static void interponevar(ArrayList<Double> list,String str, double ustart, double uend, double vstart, double vend, double ustep,double vstep){
       //for every u val  
-      for(double u=ustart;u<=uend;u+=ustep){
+      for(double u=ustart;u<=(uend);u+=ustep){
           //for every v value on interval
           for (double v=vstart;v<=vend; v+=vstep){
              if(str.equals("")){
