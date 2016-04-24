@@ -2,7 +2,7 @@
 //http://paulbourke.net/geometry/klein/
 //http://arxiv.org/pdf/0909.5354.pdf
 /*
-Note: For some reason, do not start or end v parameter on "0"
+Fixedish:  Note: For some reason, do not start or end v parameter on "0"  
 */
 FloatList xvals=new FloatList();
 FloatList yvals=new FloatList();
@@ -27,9 +27,10 @@ float zmax; float zmin;
 float dheight;
 boolean paused=false;
 String ustartval="0";
-String uendval="2.01*p";
+String uendval="2*p";
 String vstartval="-p";
 String vendval="p";
+Boolean autorotatingForward=true;
 //x  y z expressions
 
 String xexp = "20*(1-cosu)";
@@ -58,8 +59,11 @@ void draw(){
     else if(rchoose==4){
       text("Scroll Mode Z axis stretch",10,80,0);
     }
-    else{
-      text("X-Y axis Tilt",10,80,0);
+    else if(rchoose==1){
+      text("X-Z axis Tilt",10,80,0);
+    }
+    else {
+      text("Y-Z axis Tilt",10,80,0);
     }
     //highlighting what expresssions you are typing in red
     if (typing==1){fill(#f42121);}
@@ -79,9 +83,9 @@ void draw(){
     translate(width/2,height/2,0);
     rotateY(timer2*PI/180);
     rotateY(ry);
-    if(!paused){
-       timer2++;}
-    if(timer2>360){timer2=0;}
+    if(!paused){ if(autorotatingForward){
+       timer2++;}else{timer2-=1;}}
+    if(timer2>360||timer2<-360){timer2=0;}
     rotate();
     stroke(0,0,0);   
     
@@ -109,13 +113,14 @@ void draw(){
     for (int i=0;i<xvals.size()-2;i++){
       //i!=80  i!=161
         if((i+1)%81!=0){
-        drawV(i);}
-        else{//print(i);
+        drawV(i);
       }
+
         if(i<xvals.size()-(numofintervals+1)){
           drawU(i);     
       }  
     }
+    drawV(xvals.size()-2);
     if(timer<360){timer+=3;}
     dheight=height;
 }
@@ -135,18 +140,8 @@ void calculate(){
        yvals.append(10*parse.yreturnlist.get(i).floatValue());
        zvals.append(-10*parse.zreturnlist.get(i).floatValue());
    }
-  zmax=0;
-  zmin=0;
-  for(int i=0;i<zvals.size();i++){
-     if(-1*zvals.get(i)>zmax){
-        zmax=-1*zvals.get(i);
-     }
-     if(-1*zvals.get(i)<zmin){
-        zmin=-1*zvals.get(i);
-     }
-  }
-  zmax/=10; zmin/=10;  
   rescale(xvals); rescale(yvals); rescale(zvals);
+  //println(xvals.size()+"  "+ yvals.size()+"  " +zvals.size());
 }
 
 void rescale(FloatList list){
@@ -179,10 +174,11 @@ void rotate(){
 void keyPressed(){
    if(key=='f'||key=='F'){
      rchoose++;
-     if(rchoose>4){rchoose=1;}
+     if(rchoose>1){rchoose=0;}
    }
    
    if((key=='a'||key=='A')&& typing==0){   if(axis){axis=false;} else{axis=true;}   }
+   if((key=='b'||key=='B')){   if(autorotatingForward){autorotatingForward=false;} else{autorotatingForward=true;}   }
    
    if(key=='s'||key=='S'){
        xscale=dheight/450;
@@ -195,6 +191,15 @@ void keyPressed(){
        xscale=dheight/450;
        yscale=dheight/450;
        zscale=dheight/450;
+   }
+   if(key=='x'||key=='X'){
+      rchoose=3;
+   }
+   if(key=='y'||key=='Y'){
+      rchoose=2;
+   }
+   if(key=='z'||key=='Z'){
+      rchoose=4;
    }
    if((key=='p'||key=='P')&&typing==0){
       println(xexp); println(yexp); println(zexp);println("");
@@ -264,6 +269,9 @@ void mouseClicked(){
 }
 void mouseWheel(MouseEvent event) {
   int e = event.getCount();
+  if(rchoose==0){
+     rx-=5*e*PI/180;
+  }
   if(rchoose==1){
     rz-=5*e*PI/180;    
   }

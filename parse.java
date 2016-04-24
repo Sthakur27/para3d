@@ -21,9 +21,13 @@ public class parse{
     }
     public static void interponevar(ArrayList<Double> list,String str, double ustart, double uend, double vstart, double vend, double ustep,double vstep){
       //for every u val  
-      for(double u=ustart;u<=(uend);u+=ustep){
+      int ucount=0;  int vcount=0;
+      for(double u=ustart;u<=(uend+(ustep/2));u+=ustep){
           //for every v value on interval
-          for (double v=vstart;v<=vend; v+=vstep){
+          ucount++;
+          vcount=0;
+          for (double v=vstart;v<=vend+(vstep/2); v+=vstep){
+            vcount++;
              if(str.equals("")){
                list.add(0.0);
              }
@@ -38,7 +42,9 @@ public class parse{
                  list.add(answer);            
              }
           }
-        }  
+        } 
+        //System.out.println("u:"+ucount);
+        //System.out.println("v:"+vcount);
     }
     public static double interp(String str){
         if(str.equals("")){return(0);}
