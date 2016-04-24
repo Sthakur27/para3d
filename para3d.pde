@@ -7,6 +7,7 @@ Fixedish:  Note: For some reason, do not start or end v parameter on "0"
 FloatList xvals=new FloatList();
 FloatList yvals=new FloatList();
 FloatList zvals=new FloatList();
+IntList asymptotepoints=new IntList();
 boolean line=true;
 boolean axis=true;
 int rchoose=1;
@@ -18,7 +19,9 @@ float yscale=1;
 float zscale=1;
 float autoscale=1;
 int typing=0;  //typing changes meaning based on number   0:not typing  1: typing x exp 2: typing y exp 3: typing z exp  4: typing u start 5: typing u end   6: z start 7: zend
-float maxval=0;
+float xmaxval=0;
+float ymaxval=0;
+float zmaxval=0;
 float ry=0;
 float rx=0;
 int numofintervals=80;
@@ -26,16 +29,17 @@ float rz=0;
 float zmax; float zmin;
 float dheight;
 boolean paused=false;
+Boolean autorotatingForward=true;
+
+//x  y z expressions and parameters u and v
 String ustartval="0";
 String uendval="2*p";
-String vstartval="-p";
+String vstartval="0";
 String vendval="p";
-Boolean autorotatingForward=true;
-//x  y z expressions
+String xexp="((cosu+u*sinu)*sinv)/(1+u^2*(sinv)^2)";
+String yexp="((sinu-u*cosu)*sinv)/(1+u^2*(sinv)^2)";
+String zexp="log(tan(0.5*v))+(2*cosv/(1+u^2*(sinv)^2))";
 
-String xexp = "20*(1-cosu)";
-String yexp = "8*sinu*(1-cosu)+3*sinv*(((1/8)*(u*(5.5/(2*p)))*(u*(5.5/(2*p))-5.5)*(u*(5.5/(2*p))-2))+2)";
-String zexp="cosv*(((1/8)*(u*(5.5/(2*p)))*(u*(5.5/(2*p))-5.5)*(u*(5.5/(2*p))-2))+2)";
 
 String tempexp="";
 void setup(){
@@ -111,7 +115,7 @@ void draw(){
     //<xvals.size()-1
     for (int i=0;i<xvals.size()-2;i++){
       //i!=80  i!=161
-        if((i+1)%81!=0){
+        if((i+1)%(numofintervals+1)!=0){
         drawV(i);
       }
 
@@ -124,10 +128,12 @@ void draw(){
     dheight=height;
 }
 void drawV(int i){
-  line(xscale*xvals.get(i),zscale*zvals.get(i),yscale*yvals.get(i),xscale*xvals.get(i+1),zscale*zvals.get(i+1),yscale*yvals.get(i+1)); 
+  
+  line(xscale*xvals.get(i),zscale*zvals.get(i),yscale*yvals.get(i),xscale*xvals.get(i+1),zscale*zvals.get(i+1),yscale*yvals.get(i+1));
 }
 
 void drawU(int i){
+  //if(!asymptotepoints.hasValue(i)){
   line(xscale*xvals.get(i),zscale*zvals.get(i),yscale*yvals.get(i),xscale*xvals.get(i+numofintervals+1),zscale*zvals.get(i+numofintervals+1),yscale*yvals.get(i+numofintervals+1));
 }
 void calculate(){
@@ -139,28 +145,58 @@ void calculate(){
        yvals.append(10*parse.yreturnlist.get(i).floatValue());
        zvals.append(-10*parse.zreturnlist.get(i).floatValue());
    }
-  rescale(xvals); rescale(yvals); rescale(zvals);
+  rescale(xvals, xmaxval); rescale(yvals, ymaxval); rescale(zvals,zmaxval);
   //println(xvals.size()+"  "+ yvals.size()+"  " +zvals.size());
 }
 
-void rescale(FloatList list){
+void rescale(FloatList list, float maxval){
   maxval=0;
+  int sum=0;
   autoscale=1;
-  for (int i=0;i<list.size();i++){
-         if (abs(list.get(i))>maxval){
-            maxval=abs(list.get(i));
-            if(100/maxval==0){
-                maxval=abs(list.get(i-1));
-                break;
-            }
-         }
+  boolean containsinfinity=false;
+  for (int j=0;j<list.size();j++){
+    if((100/abs(list.get(j)))==0){
+        containsinfinity=false;
+        //println(list.get(j));
+    }    
   }
-  if(maxval==0){autoscale=1;}
-  else{
-    autoscale=100/maxval;}
-  if (autoscale==0){autoscale=5; }
   for (int i=0;i<list.size();i++){
-     list.mult(i,autoscale);
+        if (abs(list.get(i))>maxval){
+              maxval=abs(list.get(i));
+              if(100/maxval==0){
+                  if(i-1>=0){
+                  maxval=abs(list.get(i-1));
+                  break;
+                  }
+                  else{
+                    maxval=abs(list.get(i+1));
+                    break;
+                  }
+              }
+        }
+  }
+  if(containsinfinity||maxval>1000000){
+    for (int i=0;i<list.size();i++){
+        sum+=list.get(i);          
+    }
+    sum/=list.size()-1;
+    if(sum==0){autoscale=1;}
+    else{
+      autoscale=100/sum;}
+    if (autoscale==0){autoscale=5; }
+    for (int i=0;i<list.size();i++){
+       list.mult(i,autoscale);
+    }
+  }
+  else{
+    //println(maxval);
+    if(maxval==0){autoscale=1;}
+    else{
+      autoscale=100/maxval;}
+    if (autoscale==0){autoscale=5; }
+    for (int i=0;i<list.size();i++){
+       list.mult(i,autoscale);
+    }    
   }
 }
 
@@ -200,8 +236,15 @@ void keyPressed(){
    if(key=='z'||key=='Z'){
       rchoose=4;
    }
+   if(key=='d'||key=='D'){
+      println("dank");
+   }
    if((key=='p'||key=='P')&&typing==0){
-      println(xexp); println(yexp); println(zexp);println("");
+      println("String ustartval=\""+ustartval+"\";");
+      println("String uendval=\""+uendval+"\";");
+      println("String vstartval=\""+vstartval+"\";");
+      println("String vendval=\""+vendval+"\";");
+      println("String xexp=\""+xexp+"\";"); println("String yexp=\""+yexp+"\";"); println("String zexp=\""+zexp+"\";");println("");
    }
    if(keyCode==LEFT){
       ry-=5*PI/180;

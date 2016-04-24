@@ -1,4 +1,5 @@
 import java.lang.Math;
+import java.util.*;
 public class pObj{
     double num=0;
     String oper="";
@@ -34,5 +35,8 @@ public class pObj{
       if(mode==2){return(paren);}
       if(mode==3){return(sciop);}
       else{return("x");}
+    }
+    public void operate(ArrayList<pObj> list, int ownindex){
+        
     }
 }

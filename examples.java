@@ -125,4 +125,40 @@ String zexp="cosv*(2*p+((2*p)/(2.4*p-u))-((2.072*p)/(u+2.1))-(u+2))";p))-2)+2)";
 String xexp = "20*(1-cosu)";
 String yexp = "8*sinu*(1-cosu)+3*sinv*(((1/8)*(u*(5.5/(2*p)))*(u*(5.5/(2*p))-5.5)*(u*(5.5/(2*p))-2))+2)";
 String zexp="cosv*(((1/8)*(u*(5.5/(2*p)))*(u*(5.5/(2*p))-5.5)*(u*(5.5/(2*p))-2))+2)";
+
+Cool thingy
+
+u+0.25*u^2*sinv*cosu
+u^2+0.25*u^2*sinv*sinu
+u^2*cosv
+
+pseudosphere  -2p 2p  0 p
+String xexp = "cosu*sinv";
+String yexp = "sinu*sinv";
+String zexp="cosv+log(tan(0.5*v))";
+
+trippy
+u: (-2*p, 2*p)    v: (-p, p)
+String xexp="sin(3*u)/(2+cosv)"
+String yexp="(sinu+2*sin(2*u))/(2+cos(v+p*2/3))"
+String zexp="(cosu-2*cos(2*u))*(2+cosv)*(2+cos(v+p*2/3))/4"
+
+
+enneper 
+String ustartval="-p";
+String uendval="p";
+String vstartval="-p";
+String vendval="p";
+String xexp="u*((1-(u^2)/3)+v^2)";
+String yexp="-v*((1-(v^2)/3)+u^2)";
+String zexp="(u^2-v^2)/3";
+
+kluen surface
+String ustartval="-p";
+String uendval="p";
+String vstartval="0";
+String vendval="p";
+String xexp="(2^0.5*cos(2*u)*(cosv)^2+cosu*sin(2*v)";
+String yexp="((sinu-u*cosu)*sinv)/(1+u^2*(sinv)^2)";
+String zexp="log(tan(0.5*v))+(2*cosv/(1+u^2*(sinv)^2))";
 */

@@ -83,6 +83,9 @@ public class parse{
                //System.out.println("ok");
                pobs.add(new pObj(2,"*"));pobs.add(new pObj(1,"10")); pobs.add(new pObj(2,"^"));
             }
+            else if(temp[i]=='h'){
+              
+            }
             else{pobs.add(new pObj(0,Character.toString(exp.charAt(i))));}
         }
     }
