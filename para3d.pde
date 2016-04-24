@@ -37,7 +37,6 @@ String xexp = "20*(1-cosu)";
 String yexp = "8*sinu*(1-cosu)+3*sinv*(((1/8)*(u*(5.5/(2*p)))*(u*(5.5/(2*p))-5.5)*(u*(5.5/(2*p))-2))+2)";
 String zexp="cosv*(((1/8)*(u*(5.5/(2*p)))*(u*(5.5/(2*p))-5.5)*(u*(5.5/(2*p))-2))+2)";
 
-
 String tempexp="";
 void setup(){
       size(500, 450,P3D);

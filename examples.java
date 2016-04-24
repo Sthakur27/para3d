@@ -5,6 +5,16 @@ String xexp="(13*cosu-5*cos(2*u)-2*cos(3*u)-cos(4*u))";
 String yexp="sinu^3*sinv";
 String zexp="(sinu^3)*cosv";
 
+helicoid
+String xexp="v*sinu";
+String yexp="v*cosu";
+String zexp="u";
+
+cone
+String xexp="v*sinu";
+String yexp="v*cosu";
+String zexp="v";
+
 3dify/Bubble expressions  -2p 2p
 String xexp = "u+cosv";
 String yexp = "sinu+cosv";
@@ -15,13 +25,10 @@ String xexp="(sin(u)+2*sin(2*u))";
 String yexp="(cos(u)-2*cos(2*u))";
 String zexp="(-1*sin(3*u))";
 
-String xexp="sinu";
-String yexp="cosu";
-String zexp="v";
-
-String xexp="v*sinu";
-String yexp="v*cosu";
-String zexp="v";
+bubbly trefoil
+String xexp="(sin(u)+2*sin(2*u))+0.5*sinu*cosv";
+String yexp="(cos(u)-2*cos(2*u))+0.5*cosu*cosv";
+String zexp="(-1*sin(3*u))+0.5*sinv";
 
 cyclides
 d=5  c=5 a=13 b=12    a>b>0  c^2=a^2-b^2 d>0
@@ -57,7 +64,7 @@ String xexp="cos(u/2)+cos(u/4)*cos(v/2)";
 String yexp="sin(u/2)+cos(u/4)*sin(v/2)";
 String zexp="sin(u/4+p/2)";
 
-mob3
+mob3  -2p 2p
 String xexp="(1+(v/(4*p))*cos((u/2+p)/2))*cos(u/2+p)";
 String yexp="(1+(v/(4*p))*cos(u/2+p))*sin(u/2+p)";
 String zexp="(v/(4*p))*sin((u/2+p)/2)";
