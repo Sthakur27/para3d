@@ -161,4 +161,49 @@ String vendval="p";
 String xexp="(2^0.5*cos(2*u)*(cosv)^2+cosu*sin(2*v)";
 String yexp="((sinu-u*cosu)*sinv)/(1+u^2*(sinv)^2)";
 String zexp="log(tan(0.5*v))+(2*cosv/(1+u^2*(sinv)^2))";
+
+dini's surface
+String ustartval="-2*p";
+String uendval="2*p";
+String vstartval="0";
+String vendval="p";
+String xexp="cosu*sinv";
+String yexp="sinu*sinv";
+String zexp="(log(tan(0.5*v))+cosv)+0.2*u";
+
+steiner surface
+String ustartval="0";
+String uendval="p";
+String vstartval="0";
+String vendval="p";
+String xexp="cosu*cosv*sinv";
+String yexp="sinu*cosv*sinv";
+String zexp="cosu*sinu*(cosv)^2";
+
+right conoid  note: z's (1*u) can vary for different kinds of conoids
+String ustartval="-p";
+String uendval="p";
+String vstartval="-p";
+String vendval="p";
+String xexp="v*cosu";
+String yexp="v*sinu";
+String zexp="2*sin(1*u)";
+
+conical edge
+String ustartval="-p";
+String uendval="p";
+String vstartval="-p";
+String vendval="p";
+String xexp="v*cosu";
+String yexp="v*sinu";
+String zexp="((16-9*(cosu^2))^0.5)";
+
+spherical helicoid  f(x)=x g(x)=x^2
+String ustartval="-2*p";
+String uendval="2*p";
+String vstartval="-2*p";
+String vendval="2*p";
+String xexp="u*cosv";
+String yexp="u*sinv";
+String zexp="u^2+6*v-20";
 */

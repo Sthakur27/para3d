@@ -31,14 +31,14 @@ float dheight;
 boolean paused=false;
 Boolean autorotatingForward=true;
 
-//x  y z expressions and parameters u and v
-String ustartval="0";
+//x  y z expressions and parameters u and v  (Copy Paste from examples to here)
+String ustartval="-2*p";
 String uendval="2*p";
 String vstartval="0";
 String vendval="p";
-String xexp="((cosu+u*sinu)*sinv)/(1+u^2*(sinv)^2)";
-String yexp="((sinu-u*cosu)*sinv)/(1+u^2*(sinv)^2)";
-String zexp="log(tan(0.5*v))+(2*cosv/(1+u^2*(sinv)^2))";
+String xexp="cosu*sinv";
+String yexp="sinu*sinv";
+String zexp="(log(tan(0.5*v))+cosv)+0.2*u";
 
 
 String tempexp="";
