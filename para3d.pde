@@ -28,17 +28,18 @@ int numofintervals=80;
 float rz=0;
 float zmax; float zmin;
 float dheight;
+float depth=0;
 boolean paused=false;
 Boolean autorotatingForward=true;
 
 //x  y z expressions and parameters u and v  (Copy Paste from examples to here)
-String ustartval="-p";
-String uendval="p";
-String vstartval="-p";
+String ustartval="-2*p";
+String uendval="2*p";
+String vstartval="0";
 String vendval="p";
-String xexp="(8*(5-13*cosu*cosv)+144*cosu)/(13-5*cosu*cosv)";
-String yexp="(12*sinu*(13-8*cosv))/(13-5*cosu*cosv)";
-String zexp="(12*sinv*(5*cosu-8))/(13-5*cosu*cosv)";
+String xexp="cosu*sinv";
+String yexp="sinu*sinv";
+String zexp="(log(tan(0.5*v))+cosv)+0.2*u";
 
 String tempexp="";
 void setup(){
@@ -82,7 +83,7 @@ void draw(){
     text(vstartval+"≤v≤"+vendval,width-10,40,0); fill(0);
     textAlign(LEFT);
     
-    translate(width/2,height/2,0);
+    translate(width/2,height/2,depth);
     rotateY(timer2*PI/180);
     rotateY(ry);
     if(!paused){ if(autorotatingForward){
@@ -221,10 +222,7 @@ void keyPressed(){
    }
 
    if(key=='r'||key=='R'){
-      rx=0; rz=0;  timer2=0; 
-       xscale=dheight/450;
-       yscale=dheight/450;
-       zscale=dheight/450;
+      rx=0; rz=0;  timer2=0; depth=0;
    }
    if(key=='x'||key=='X'){
       rchoose=3;
@@ -250,6 +248,12 @@ void keyPressed(){
    }
    if(keyCode==RIGHT){
       ry+=5*PI/180;
+   }
+   if(keyCode==DOWN){
+      depth+=20;
+   }
+   if(keyCode==UP){
+      depth-=20;
    }
    if(keyCode==ENTER){
        if(typing==0){typing++; xexp=""; 
