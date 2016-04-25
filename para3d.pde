@@ -32,14 +32,13 @@ boolean paused=false;
 Boolean autorotatingForward=true;
 
 //x  y z expressions and parameters u and v  (Copy Paste from examples to here)
-String ustartval="-2*p";
-String uendval="2*p";
-String vstartval="0";
+String ustartval="-p";
+String uendval="p";
+String vstartval="-p";
 String vendval="p";
-String xexp="cosu*sinv";
-String yexp="sinu*sinv";
-String zexp="(log(tan(0.5*v))+cosv)+0.2*u";
-
+String xexp="(8*(5-13*cosu*cosv)+144*cosu)/(13-5*cosu*cosv)";
+String yexp="(12*sinu*(13-8*cosv))/(13-5*cosu*cosv)";
+String zexp="(12*sinv*(5*cosu-8))/(13-5*cosu*cosv)";
 
 String tempexp="";
 void setup(){
