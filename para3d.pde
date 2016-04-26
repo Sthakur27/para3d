@@ -33,22 +33,24 @@ boolean paused=false;
 Boolean autorotatingForward=true;
 
 //x  y z expressions and parameters u and v  (Copy Paste from examples to here)
-String ustartval="-2*p";
+String ustartval="0";
 String uendval="2*p";
-String vstartval="0";
+String vstartval="-p";
 String vendval="p";
-String xexp="cosu*sinv";
-String yexp="sinu*sinv";
-String zexp="(log(tan(0.5*v))+cosv)+0.2*u";
+String xexp="20*(1-cosu)";
+String yexp="8*sinu*(1-cosu)+3*sinv*(((1/8)*(u*(5.5/(2*p)))*(u*(5.5/(2*p))-5.5)*(u*(5.5/(2*p))-2))+2)";
+String zexp="cosv*(((1/8)*(u*(5.5/(2*p)))*(u*(5.5/(2*p))-5.5)*(u*(5.5/(2*p))-2))+2)";
+
 
 String tempexp="";
 void setup(){
       size(500, 450,P3D);
-      //parse.test();
-      calculate();
       dheight=height;
       surface.setResizable(true);
+      System.out.println(parse.interp("3^2+4-8"));
+      calculate();
 }
+
 
 void draw(){
     background(255,255,255);
@@ -133,7 +135,6 @@ void drawV(int i){
 }
 
 void drawU(int i){
-  //if(!asymptotepoints.hasValue(i)){
   line(xscale*xvals.get(i),zscale*zvals.get(i),yscale*yvals.get(i),xscale*xvals.get(i+numofintervals+1),zscale*zvals.get(i+numofintervals+1),yscale*yvals.get(i+numofintervals+1));
 }
 void calculate(){
@@ -146,7 +147,6 @@ void calculate(){
        zvals.append(-10*parse.zreturnlist.get(i).floatValue());
    }
   rescale(xvals, xmaxval); rescale(yvals, ymaxval); rescale(zvals,zmaxval);
-  //println(xvals.size()+"  "+ yvals.size()+"  " +zvals.size());
 }
 
 void rescale(FloatList list, float maxval){

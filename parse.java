@@ -5,7 +5,7 @@ public class parse{
     static String type1="0123456789.ep";
     static String type2="+-*/^";
     static String type3="()";
-    static String type4="cstl"; //cos  sin tan log
+    static String type4="cossintanlogcoshsinh"; //cos  sin tan log
     static ArrayList<pObj> pobs=new ArrayList<>();
     static ArrayList<Double> xreturnlist=new ArrayList<>();
     static ArrayList<Double> yreturnlist=new ArrayList<>();
@@ -50,6 +50,8 @@ public class parse{
         if(str.equals("")){return(0);}
         exp=str;
         classify();
+        /*System.out.println("*****");
+        print();System.out.println("*****");*/
         fulleval();
         double temp=pobs.get(0).num;
         pobs.clear();
@@ -58,35 +60,38 @@ public class parse{
         //print();
     }
     public static void classify(){
-        char[]temp=exp.toCharArray();
-        int a=0;
-        for(int i=0;i<temp.length;i++){
-            if (type1.indexOf(temp[i])!=-1){
-               a=i;
-               while(a+1<temp.length && type1.indexOf(temp[a+1])!=-1){   
-                   a+=1;
+        //char[]temp=exp.toCharArray();
+        int numlength=0;
+        for(int i=0;i<exp.length();i++){
+            if (type1.indexOf(exp.substring(i,i+1))!=-1){
+               numlength=i;
+               while(numlength+1<exp.length() && type1.indexOf(exp.substring(numlength+1,numlength+2))!=-1){   
+                   numlength+=1;
                }
-               pobs.add(new pObj(0,exp.substring(i,a+1)));
-               i=a;
+               pobs.add(new pObj(0,exp.substring(i,numlength+1)));
+               i=numlength;
             }
-            else if(type2.indexOf(temp[i])!=-1){
-               pobs.add(new pObj(1,Character.toString(exp.charAt(i))));
+            else if(type2.indexOf(exp.substring(i,i+1))!=-1){
+               pobs.add(new pObj(1,exp.substring(i,i+1)));
             }
-            else if(type3.indexOf(temp[i])!=-1){
-               pobs.add(new pObj(2,Character.toString(exp.charAt(i))));
+            else if(type3.indexOf(exp.substring(i,i+1))!=-1){
+               pobs.add(new pObj(2,exp.substring(i,i+1)));
             }
-            else if(type4.indexOf(temp[i])!=-1){
-               pobs.add(new pObj(3,Character.toString(exp.charAt(i))));
+            //sinh cosh
+            else if(type4.indexOf(exp.substring(i,i+4))!=-1){
+               pobs.add(new pObj(3,exp.substring(i,i+4)));
+               i+=3;
+            }
+            //sin tan cos log
+            else if(type4.indexOf(exp.substring(i,i+3))!=-1){
+               pobs.add(new pObj(3,exp.substring(i,i+3)));
                i+=2;
             }
-            else if(temp[i]=='E'){
+            else if(exp.substring(i,i+1).equals("E")){
                //System.out.println("ok");
                pobs.add(new pObj(2,"*"));pobs.add(new pObj(1,"10")); pobs.add(new pObj(2,"^"));
             }
-            else if(temp[i]=='h'){
-              
-            }
-            else{pobs.add(new pObj(0,Character.toString(exp.charAt(i))));}
+            else{pobs.add(new pObj(0,exp.substring(i,i+1)));}
         }
     }
     //check if parenthesis exists
@@ -101,10 +106,10 @@ public class parse{
         int left=0;
         while(paren()){
             for (int j=0;j<pobs.size();j++){
-                if (pobs.get(j).paren.equals("(")){
+                if (pobs.get(j).oper.equals("(")){
                     left=j;
                 }
-                if(pobs.get(j).paren.equals(")")){
+                if(pobs.get(j).oper.equals(")")){
                     eval(left+1,j-1);
                     pobs.remove(left+2);
                     pobs.remove(left);
@@ -117,95 +122,45 @@ public class parse{
     }
     //startpos is  after (  and endpos is before )
     public static void eval(int startpos,int endpos){
-        //pobs.remove(endpos);
-        for(int i=startpos;i<=endpos;i++){
-            if(pobs.get(i).mode==3){
-                if(pobs.get(i).sciop.equals("sin")){
-                    pobs.get(i).num=Math.sin(pobs.get(i+1).num);
-                    pobs.get(i).mode=0;
-                    pobs.remove(i+1);
-                    endpos-=1;
-                }
+      for(int prior=4;prior>=1;prior=prior-1){
+         for(int i=startpos;i<endpos;i++){
+            if(pobs.get(i).priority==prior){
+              int numofremovals=operate(pobs,i);
+              for (int j=0;j<numofremovals;j++){                
+                  pobs.remove(i);
+              }
+              i-=1; endpos-=numofremovals;
+              /*if(pobs.get(i).mode==3){pobs.remove(i); endpos-=1; i-=1;}
+              else{pobs.remove(i+1);pobs.remove(i);endpos-=2; i-=1;}*/
             }
+              
+         }
+      }
+    }
+    public static int operate(ArrayList<pObj> list, int i){
+        if(pobs.get(i).mode==1){
+           //System.out.println(list.get(i).opernum);
+           if(list.get(i).opernum==1){list.get(i-1).num=list.get(i-1).num+list.get(i+1).num;      }
+           else if(list.get(i).opernum==2){
+                 if(i==0||list.get(i-1).mode!=0){
+                     list.get(i+1).num*=-1; return(1);
+                 }
+                 else{list.get(i-1).num=list.get(i-1).num-list.get(i+1).num; }}
+           else if(list.get(i).opernum==3){list.get(i-1).num=list.get(i-1).num*list.get(i+1).num;  }
+           else if(list.get(i).opernum==4){list.get(i-1).num=list.get(i-1).num/list.get(i+1).num;  }
+           else if(list.get(i).opernum==5){list.get(i-1).num=Math.pow(list.get(i-1).num,list.get(i+1).num);  }
+           return(2);
         }
-        for(int i=startpos;i<=endpos;i++){
-            if(pobs.get(i).mode==3){
-                if(pobs.get(i).sciop.equals("cos")){
-                    pobs.get(i).num=Math.cos(pobs.get(i+1).num);
-                    pobs.get(i).mode=0;
-                    pobs.remove(i+1);
-                    endpos-=1;
-                }
-            }
+        else if(pobs.get(i).mode==3){
+           if(list.get(i).opernum==6){list.get(i+1).num=Math.sin(list.get(i+1).num); }
+           else if(list.get(i).opernum==7){list.get(i+1).num=Math.cos(list.get(i+1).num); }
+           else if(list.get(i).opernum==8){list.get(i+1).num=Math.tan(list.get(i+1).num); }
+           else if(list.get(i).opernum==9){list.get(i+1).num=Math.log(list.get(i+1).num); }
+           else if(list.get(i).opernum==10){list.get(i+1).num=Math.sinh(list.get(i+1).num); }
+           else if(list.get(i).opernum==11){list.get(i+1).num=Math.cosh(list.get(i+1).num); }
+           return(1);
         }
-        for(int i=startpos;i<=endpos;i++){
-            if(pobs.get(i).mode==3){
-                if(pobs.get(i).sciop.equals("tan")){
-                    pobs.get(i).num=Math.tan(pobs.get(i+1).num);
-                    pobs.get(i).mode=0;
-                    pobs.remove(i+1);
-                    endpos-=1;
-                }
-            }
-        }
-        for(int i=startpos;i<=endpos;i++){
-            if(pobs.get(i).mode==3){
-                if(pobs.get(i).sciop.equals("log")){
-                    pobs.get(i).num=Math.log(pobs.get(i+1).num);
-                    pobs.get(i).mode=0;
-                    pobs.remove(i+1);
-                    endpos-=1;
-                }
-            }
-        }
-        for(int i=startpos;i<=endpos;i++){
-            if(pobs.get(i).mode==1){
-                if(pobs.get(i).oper.equals("^")){
-                    pobs.get(i-1).num=Math.pow(pobs.get(i-1).num,pobs.get(i+1).num);
-                    pobs.remove(i+1); pobs.remove(i);
-                    i=i-1; endpos-=2;
-                }
-            }
-        }
-        for(int i=startpos;i<=endpos;i++){
-            if(pobs.get(i).mode==1){
-                if(pobs.get(i).oper.equals("/")){
-                    pobs.get(i-1).num=pobs.get(i-1).num/pobs.get(i+1).num;
-                    pobs.remove(i+1); pobs.remove(i);
-                    i=i-1; endpos-=2;
-                }
-            }
-        }  
-        for(int i=startpos;i<=endpos;i++){
-            if(pobs.get(i).mode==1){
-                if(pobs.get(i).oper.equals("*")){
-                    pobs.get(i-1).num=pobs.get(i-1).num*pobs.get(i+1).num;
-                    pobs.remove(i+1); pobs.remove(i);
-                    i=i-1; endpos-=2;
-                }}}
-        for(int i=startpos;i<=endpos;i++){
-            if(pobs.get(i).mode==1){        
-                if(pobs.get(i).oper.equals("+")){
-                    pobs.get(i-1).num=pobs.get(i-1).num+pobs.get(i+1).num;
-                    pobs.remove(i+1); pobs.remove(i);
-                    i=i-1; endpos-=2;
-                } }}
-        for(int i=startpos;i<=endpos;i++){
-            if(pobs.get(i).mode==1){        
-                if(pobs.get(i).oper.equals("-")){
-                    if(i==0 || pobs.get(i-1).mode!=0){
-                        pobs.get(i+1).num*=-1;
-                        pobs.remove(i);
-                        i=i-1; endpos=endpos-1;
-                    }
-                    else{
-                    pobs.get(i-1).num=pobs.get(i-1).num-pobs.get(i+1).num;
-                    pobs.remove(i+1); pobs.remove(i);
-                    i=i-1; endpos-=2;}
-                }  
-            }
-        }
-       // pobs.remove(startpos);
+        return(0);
     }
     public static void print(){
        for (pObj a:pobs){

@@ -2,10 +2,10 @@ import java.lang.Math;
 import java.util.*;
 public class pObj{
     double num=0;
+    int priority;
+    int opernum=0;  //1 +  2 -   3 * 4 /  5 ^  6 sin 7 cos 8 tan 9 log 10 sinh 11 cosh
     String oper="";
-    String paren="";
-    String sciop="";
-    int mode=0;  //0:numbers  1: operators(+,-)  2: parenthesis   3: scientific operator(sin cos)  4: x values
+    int mode=0;  //0:numbers  1: operators(+,-)  2: paranthesis   3: scientific operator(sin cos)
     public pObj(int i,String str){
       mode=i;
       if(mode==0){
@@ -14,29 +14,48 @@ public class pObj{
          else{
          //System.out.println(str);
          num=Double.parseDouble(str);}
+         priority=0;
       }
       if(mode==1){
           oper=str;
+          if(str.equals("+")){
+            priority=1;  opernum=1;
+          }
+          else if(str.equals("-")){
+            priority=1;  opernum=2;
+          }
+          if(str.equals("*")){
+            priority=2;  opernum=3;
+          }
+          if(str.equals("/")){
+            priority=2;  opernum=4;
+          }
+          if(str.equals("^")){
+            priority=3;  opernum=5;
+          }
       }
-      if(mode==2){
-          paren=str;
+      else if(mode==2){
+          oper=str;
       }
-      if(mode==3){
-          if(str.equals("c")){sciop="cos";}
-          if(str.equals("s")){sciop="sin";}
-          if(str.equals("t")){sciop="tan";}
-          if(str.equals("l")){sciop="log";}
+      else if(mode==3){
+          oper=str;
+          priority=4;
+          if(oper.equals("sin")){opernum=6;}
+          else if(oper.equals("cos")){opernum=7;}
+          else if(oper.equals("tan")){opernum=8;}
+          else if(oper.equals("log")){opernum=9;}
+          else if(oper.equals("sinh")){opernum=10;}
+          else if(oper.equals("cosh")){opernum=11;}
       }
+      //System.out.println(mode+"  "+ num + "  " + oper);
     }
     public String toString(){
       if(mode==0){
        return(Double.toString(num));}
       if(mode==1){return(oper);}
-      if(mode==2){return(paren);}
-      if(mode==3){return(sciop);}
+      if(mode==2){return(oper);}
+      if(mode==3){return(oper);}
       else{return("x");}
     }
-    public void operate(ArrayList<pObj> list, int ownindex){
-        
-    }
+    
 }
