@@ -38,8 +38,8 @@ String uendval="14";
 String vstartval="-37.4";
 String vendval="37.4";
 String xexp="-u+(2*(0.84)*cosh(0.4*u)*sinh(0.4*u))/(0.4*(0.84*(cosh(0.4*u)^2))+0.16*(sin(0.9165*v)^2))";
-String yexp="u";
-String zexp="u";
+String yexp="(0.84*cosh(0.4*u)*(-0.9165*cosv*cos(0.9165*v)-sinv*sin(0.9165*v)))/(0.4*(0.84*(cosh(0.4*u)^2)+0.16*(sin(0.9165*v)^2)))";
+String zexp="(0.84*cosh(0.4*u)*(-0.9165*sinv*cos(0.9165*v)+cosv*sin(0.9165*v)))/(0.4*(0.84*(cosh(0.4*u)^2)+0.16*(sin(0.9165*v)^2)))";
 
 
 String tempexp="";
@@ -47,7 +47,7 @@ void setup(){
       size(500, 450,P3D);
       dheight=height;
       surface.setResizable(true);
-      //System.out.println(parse.interp("3^2+4-8"));
+      //System.out.println(parse.interp("0.84*cosh(0.4*4)"));
       calculate();
 }
 

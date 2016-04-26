@@ -2,7 +2,7 @@ import java.lang.Math;
 import java.util.*;
 public class parse{
     static String exp;
-    static String type1="0123456789.ep";
+    static String type1="E0123456789.ep";
     static String type2="+-*/^";
     static String type3="()";
     static String type4="cossintanlogcoshsinh"; //cos  sin tan log
@@ -61,11 +61,13 @@ public class parse{
     }
     public static void classify(){
         //char[]temp=exp.toCharArray();
+        //System.out.println(exp);
         int numlength=0;
         for(int i=0;i<exp.length();i++){
             if (type1.indexOf(exp.substring(i,i+1))!=-1){
                numlength=i;
                while(numlength+1<exp.length() && type1.indexOf(exp.substring(numlength+1,numlength+2))!=-1){   
+                   if(exp.substring(numlength+1,numlength+2).equals("E")){numlength+=1;}
                    numlength+=1;
                }
                pobs.add(new pObj(0,exp.substring(i,numlength+1)));
@@ -126,6 +128,7 @@ public class parse{
          for(int i=startpos;i<endpos;i++){
             if(pobs.get(i).priority==prior){
               int numofremovals=operate(pobs,i);
+              //System.out.println("Operating "+pobs.get(i));
               for (int j=0;j<numofremovals;j++){                
                   pobs.remove(i);
               }
@@ -163,8 +166,9 @@ public class parse{
         return(0);
     }
     public static void print(){
-       for (pObj a:pobs){
-          System.out.println(a);
+       for (int i=0;i<pobs.size();i++){
+          System.out.print("["+i+"]"+"   "+pobs.get(i)+", ");
        }
+       System.out.println("");
     }
 }
