@@ -33,13 +33,13 @@ boolean paused=false;
 Boolean autorotatingForward=true;
 
 //x  y z expressions and parameters u and v  (Copy Paste from examples to here)
-String ustartval="0";
-String uendval="2*p";
-String vstartval="-p";
-String vendval="p";
-String xexp="20*(1-cosu)";
-String yexp="8*sinu*(1-cosu)+3*sinv*(((1/8)*(u*(5.5/(2*p)))*(u*(5.5/(2*p))-5.5)*(u*(5.5/(2*p))-2))+2)";
-String zexp="cosv*(((1/8)*(u*(5.5/(2*p)))*(u*(5.5/(2*p))-5.5)*(u*(5.5/(2*p))-2))+2)";
+String ustartval="-14";
+String uendval="14";
+String vstartval="-37.4";
+String vendval="37.4";
+String xexp="-u+(2*(0.84)*cosh(0.4*u)*sinh(0.4*u))/(0.4*(0.84*(cosh(0.4*u)^2))+0.16*(sin(0.9165*v)^2))";
+String yexp="u";
+String zexp="u";
 
 
 String tempexp="";
@@ -47,7 +47,7 @@ void setup(){
       size(500, 450,P3D);
       dheight=height;
       surface.setResizable(true);
-      System.out.println(parse.interp("3^2+4-8"));
+      //System.out.println(parse.interp("3^2+4-8"));
       calculate();
 }
 
@@ -175,7 +175,7 @@ void rescale(FloatList list, float maxval){
               }
         }
   }
-  if(containsinfinity||maxval>1000000){
+  if(containsinfinity){
     for (int i=0;i<list.size();i++){
         sum+=list.get(i);          
     }
