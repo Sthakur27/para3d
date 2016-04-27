@@ -1,52 +1,39 @@
 //http://aleph0.clarku.edu/~djoyce/ma131/gallery.pdf
 //http://paulbourke.net/geometry/klein/
 //http://arxiv.org/pdf/0909.5354.pdf
-/*
-Fixedish:  Note: For some reason, do not start or end v parameter on "0"  
-*/
-FloatList xvals=new FloatList();
+FloatList xvals=new FloatList(); 
 FloatList yvals=new FloatList();
 FloatList zvals=new FloatList();
 ArrayList<Color>colorList=new ArrayList();
-IntList asymptotepoints=new IntList();
 boolean line=true;
 boolean axis=true;
 int rchoose=1;
-boolean scaleon=true;
 int timer=1;
 int timer2=1;
-float xscale=1;
-float yscale=1;
-float zscale=1;
-float autoscale=1;
+float xscale=1; float yscale=1; float zscale=1;
 int typing=0;  //typing changes meaning based on number   0:not typing  1: typing x exp 2: typing y exp 3: typing z exp  4: typing u start 5: typing u end   6: z start 7: zend
-float xmaxval=0;
-float ymaxval=0;
-float zmaxval=0;
-float ry=0;
-float rx=0;
+float xmaxval=0; float ymaxval=0; float zmaxval=0;
+float ry=0; float rx=0;
 int numofintervals=80;
 float rz=0;
 float zmax; float zmin;
-float dheight;
-float depth=0;
+float dheight; float dwidth=0;
 boolean paused=false;
 Boolean autorotatingForward=true;
-Boolean colored=true;
+int colored=0; //0 purple, 1 full span, 2 z depth, 3 x depth, 4 y depth  5 xyz depth  6 critical
 
 //x  y z expressions and parameters u and v  (Copy Paste from examples to here)
-String ustartval="-2*p";
-String uendval="2*p";
-String vstartval="0";
+String ustartval="-p";
+String uendval="p";
+String vstartval="-p";
 String vendval="p";
-String xexp="cosu*sinv";
-String yexp="sinu*sinv";
-String zexp="(log(tan(0.5*v))+cosv)+0.2*u";
+String xexp="u*sinv";
+String yexp="u*cosv";
+String zexp="v";
 
 
 String tempexp="";
 void setup(){
-      print(alpha(#aa03eb));
       size(500, 450,P3D);
       dheight=height;
       surface.setResizable(true);
@@ -88,7 +75,7 @@ void draw(){
     text(vstartval+"≤v≤"+vendval,width-10,40,0); fill(0);
     textAlign(LEFT);
     
-    translate(width/2,height/2,depth);
+    translate(width/2,height/2,dwidth);
     rotateY(timer2*PI/180);
     rotateY(ry);
     if(!paused){ if(autorotatingForward){
@@ -102,17 +89,14 @@ void draw(){
         textSize(15); fill(0);
         
         //x axis
-        if(colored){stroke(255,0,0);}
         line(-150*xscale,0,0,150*xscale,0,0);
         text("X",105*xscale,0,0);
         
         //z
-        if(colored){stroke(0,0,255);}
         line(0,-150*zscale,0,0,150*zscale,0);        
         text("Z",0,-105*zscale,0);
         
-        //y
-        if(colored){stroke(0,255,0);}
+        //y       
         line(0,0,-150*yscale,0,0,150*yscale);        
         text("Y",0,0,105*yscale);
     }
@@ -138,14 +122,14 @@ void draw(){
 void drawV(int i){
  // stroke(xvals.get(i)+100,yvals.get(i)+100,zvals.get(i)+100);
   //stroke(170,170,zvals.get(i)+100);
-  if(colored){stroke(colorList.get(i).r,colorList.get(i).g,colorList.get(i).b);}
+  if(colored!=0){stroke(colorList.get(i).r,colorList.get(i).g,colorList.get(i).b);}
   line(xscale*xvals.get(i),zscale*zvals.get(i),yscale*yvals.get(i),xscale*xvals.get(i+1),zscale*zvals.get(i+1),yscale*yvals.get(i+1));
 }
 
 void drawU(int i){
  // stroke(xvals.get(i)+100,yvals.get(i)+100,zvals.get(i)+100);
   //stroke(128-zvals.get(i)*255/zmaxval,128-zvals.get(i)*128/zmaxval,0);
-  if(colored){stroke(colorList.get(i).r,colorList.get(i).g,colorList.get(i).b);}
+  if(colored!=0){stroke(colorList.get(i).r,colorList.get(i).g,colorList.get(i).b);}
   line(xscale*xvals.get(i),zscale*zvals.get(i),yscale*yvals.get(i),xscale*xvals.get(i+numofintervals+1),zscale*zvals.get(i+numofintervals+1),yscale*yvals.get(i+numofintervals+1));
 }
 void calculate(){
@@ -156,33 +140,25 @@ void calculate(){
        xvals.append(10*parse.xreturnlist.get(i).floatValue());
        yvals.append(10*parse.yreturnlist.get(i).floatValue());
        zvals.append(-10*parse.zreturnlist.get(i).floatValue());
-   }
-  rescale(xvals, xmaxval); rescale(yvals, ymaxval); rescale(zvals,zmaxval); 
-  axiscolorlist();
-}
-void axiscolorlist(){
-  colorList.clear();
-  float xmax=findrange(xvals)[1]; float xmin=findrange(xvals)[0]; 
-  float ymax=findrange(yvals)[1]; float ymin=findrange(yvals)[0];
-  float zmax=findrange(zvals)[1]; float zmin=findrange(zvals)[0];
-  for (int j=0;j<xvals.size();j++){
-     //colorList.add(new Color(128+(xvals.get(j)-xmin)*128.0/(xmax-xmin),128+(yvals.get(j)-ymin)*128.0/(ymax-ymin),128+(zvals.get(j)-zmin)*128.0/(zmax-zmin)));
-     colorList.add(new Color(128+(xvals.get(j))*128.0/(200),128+(yvals.get(j))*128.0/(100),128+(zvals.get(j))*128.0/(200)));
   }
+  Color.generateDepthValues(xvals.array(),yvals.array(),zvals.array());
+  //0.0,255.0,197.0,238.0,3.0,240.0);
+  //Color.generateDepthColorList(xvals.array(),yvals.array(),zvals.array(),251.0,253.0,10.0,240.0,3.0,3.0);
+  rescale(xvals, xmaxval); rescale(yvals, ymaxval); rescale(zvals,zmaxval);
+  applycolor();
 }
-float[] findrange(FloatList list){
-  float min=list.get(1);
-  float max=list.get(1);
-  for (int i=1;i<list.size();i++){
-    
-  }
-  float[] temp={min, max};
-  return (temp);
+void applycolor(){
+   if(colored==1){Color.axiscolorlist(xvals.array(),yvals.array(),zvals.array(),colorList);}
+   else if(colored==2){Color.generateDepthColorList(colorList,251.0,253.0,10.0,240.0,3.0,3.0);}
+   else if(colored==3){Color.generateDepthColorList(colorList,0.0,255.0,197.0,238.0,3.0,240.0);}
+   else if(colored==4){Color.generateDepthColorList(colorList,0.0,0.0,255.0,5,234.0,9.0);}
+  // else if(colored==6){Color.criticalcolor(xvals.array(),yvals.array(),zvals.array(),colorList);}
 }
+
 void rescale(FloatList list, float maxval){
   maxval=0;
   int sum=0;
-  autoscale=1;
+  float autoscale=1;
   boolean containsinfinity=false;
   for (int j=0;j<list.size();j++){
     if((100/abs(list.get(j)))==0){
@@ -252,7 +228,7 @@ void keyPressed(){
    }
 
    if(key=='r'||key=='R'){
-      rx=0; rz=0;  timer2=0; depth=0;
+      rx=0; rz=0;  timer2=0; dwidth=0;
    }
    if(key=='x'||key=='X'){
       rchoose=3;
@@ -280,10 +256,10 @@ void keyPressed(){
       ry+=5*PI/180;
    }
    if(keyCode==DOWN){
-      depth+=20;
+      dwidth+=20;
    }
    if(keyCode==UP){
-      depth-=20;
+      dwidth-=20;
    }
    if(keyCode==ENTER){
        if(typing==0){typing++; xexp=""; 
@@ -338,8 +314,9 @@ void keyPressed(){
    if((key=='v'||key=='V') && typing==0){
       typing=6; vstartval="";
    }
-   if(key=='c'||key=='C'){
-      if(colored){colored=false;}else{colored=true;}
+   if((key=='c'||key=='C') && typing==0){
+      if(colored<4){colored++;}else{colored=0;}
+      applycolor();
    }
 }
 void mouseClicked(){
