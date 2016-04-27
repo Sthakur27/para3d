@@ -27,17 +27,15 @@ String ustartval="-p";
 String uendval="p";
 String vstartval="-p";
 String vendval="p";
-String xexp="u*sinv";
-String yexp="u*cosv";
-String zexp="v";
-
+String xexp="(8*(5-13*cosu*cosv)+144*cosu)/(13-5*cosu*cosv)";
+String yexp="(12*sinu*(13-8*cosv))/(13-5*cosu*cosv)";
+String zexp="(12*sinv*(5*cosu-8))/(13-5*cosu*cosv)";
 
 String tempexp="";
 void setup(){
       size(500, 450,P3D);
       dheight=height;
       surface.setResizable(true);
-      //System.out.println(parse.interp("0.84*cosh(0.4*4)"));
       calculate();
 }
 
@@ -152,7 +150,7 @@ void applycolor(){
    else if(colored==2){Color.generateDepthColorList(colorList,251.0,253.0,10.0,240.0,3.0,3.0);}
    else if(colored==3){Color.generateDepthColorList(colorList,0.0,255.0,197.0,238.0,3.0,240.0);}
    else if(colored==4){Color.generateDepthColorList(colorList,5,234.0,9.0,0.0,0.0,255.0);}
-  // else if(colored==6){Color.criticalcolor(xvals.array(),yvals.array(),zvals.array(),colorList);}
+   else if(colored==5){Color.generateDepthColorList(colorList,238,3.0,240.0,0.0,255,0.0);}
 }
 
 void rescale(FloatList list, float maxval){
@@ -315,7 +313,7 @@ void keyPressed(){
       typing=6; vstartval="";
    }
    if((key=='c'||key=='C') && typing==0){
-      if(colored<4){colored++;}else{colored=0;}
+      if(colored<5){colored++;}else{colored=0;}
       applycolor();
    }
 }

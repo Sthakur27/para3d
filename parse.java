@@ -6,6 +6,7 @@ public class parse{
     static String type2="+-*/^";
     static String type3="()";
     static String type4="cossintanlogcoshsinh"; //cos  sin tan log
+    static String vars="uv";
     static ArrayList<pObj> pobs=new ArrayList<>();
     static ArrayList<Double> xreturnlist=new ArrayList<>();
     static ArrayList<Double> yreturnlist=new ArrayList<>();
@@ -20,14 +21,15 @@ public class parse{
         interponevar(zreturnlist,str3,ustart,uend,vstart,vend,(uend-ustart)/numofsteps,(vend-vstart)/numofsteps);
     }
     public static void interponevar(ArrayList<Double> list,String str, double ustart, double uend, double vstart, double vend, double ustep,double vstep){
-      //for every u val  
-      int ucount=0;  int vcount=0;
+      //first check if string is valid:
+      boolean valid=true;
+      for(int m=0;m<str.length();m++){
+         
+      }
+      //for every u val        
       for(double u=ustart;u<=(uend+(ustep/2));u+=ustep){
           //for every v value on interval
-          ucount++;
-          vcount=0;
           for (double v=vstart;v<=vend+(vstep/2); v+=vstep){
-            vcount++;
              if(str.equals("")){
                list.add(0.0);
              }
@@ -43,8 +45,6 @@ public class parse{
              }
           }
         } 
-        //System.out.println("u:"+ucount);
-        //System.out.println("v:"+vcount);
     }
     public static double interp(String str){
         if(str.equals("")){return(0);}
