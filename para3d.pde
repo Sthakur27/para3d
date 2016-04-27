@@ -7,6 +7,7 @@ Fixedish:  Note: For some reason, do not start or end v parameter on "0"
 FloatList xvals=new FloatList();
 FloatList yvals=new FloatList();
 FloatList zvals=new FloatList();
+ArrayList<Color>colorList=new ArrayList();
 IntList asymptotepoints=new IntList();
 boolean line=true;
 boolean axis=true;
@@ -31,19 +32,21 @@ float dheight;
 float depth=0;
 boolean paused=false;
 Boolean autorotatingForward=true;
+Boolean colored=true;
 
 //x  y z expressions and parameters u and v  (Copy Paste from examples to here)
-String ustartval="-14";
-String uendval="14";
-String vstartval="-37.4";
-String vendval="37.4";
-String xexp="-u+(2*(0.84)*cosh(0.4*u)*sinh(0.4*u))/(0.4*(0.84*(cosh(0.4*u)^2))+0.16*(sin(0.9165*v)^2))";
-String yexp="(0.84*cosh(0.4*u)*(-0.9165*cosv*cos(0.9165*v)-sinv*sin(0.9165*v)))/(0.4*(0.84*(cosh(0.4*u)^2)+0.16*(sin(0.9165*v)^2)))";
-String zexp="(0.84*cosh(0.4*u)*(-0.9165*sinv*cos(0.9165*v)+cosv*sin(0.9165*v)))/(0.4*(0.84*(cosh(0.4*u)^2)+0.16*(sin(0.9165*v)^2)))";
+String ustartval="-2*p";
+String uendval="2*p";
+String vstartval="0";
+String vendval="p";
+String xexp="cosu*sinv";
+String yexp="sinu*sinv";
+String zexp="(log(tan(0.5*v))+cosv)+0.2*u";
 
 
 String tempexp="";
 void setup(){
+      print(alpha(#aa03eb));
       size(500, 450,P3D);
       dheight=height;
       surface.setResizable(true);
@@ -99,14 +102,17 @@ void draw(){
         textSize(15); fill(0);
         
         //x axis
+        if(colored){stroke(255,0,0);}
         line(-150*xscale,0,0,150*xscale,0,0);
         text("X",105*xscale,0,0);
         
         //z
+        if(colored){stroke(0,0,255);}
         line(0,-150*zscale,0,0,150*zscale,0);        
         text("Z",0,-105*zscale,0);
         
         //y
+        if(colored){stroke(0,255,0);}
         line(0,0,-150*yscale,0,0,150*yscale);        
         text("Y",0,0,105*yscale);
     }
@@ -130,11 +136,16 @@ void draw(){
     dheight=height;
 }
 void drawV(int i){
-  
+ // stroke(xvals.get(i)+100,yvals.get(i)+100,zvals.get(i)+100);
+  //stroke(170,170,zvals.get(i)+100);
+  if(colored){stroke(colorList.get(i).r,colorList.get(i).g,colorList.get(i).b);}
   line(xscale*xvals.get(i),zscale*zvals.get(i),yscale*yvals.get(i),xscale*xvals.get(i+1),zscale*zvals.get(i+1),yscale*yvals.get(i+1));
 }
 
 void drawU(int i){
+ // stroke(xvals.get(i)+100,yvals.get(i)+100,zvals.get(i)+100);
+  //stroke(128-zvals.get(i)*255/zmaxval,128-zvals.get(i)*128/zmaxval,0);
+  if(colored){stroke(colorList.get(i).r,colorList.get(i).g,colorList.get(i).b);}
   line(xscale*xvals.get(i),zscale*zvals.get(i),yscale*yvals.get(i),xscale*xvals.get(i+numofintervals+1),zscale*zvals.get(i+numofintervals+1),yscale*yvals.get(i+numofintervals+1));
 }
 void calculate(){
@@ -146,9 +157,28 @@ void calculate(){
        yvals.append(10*parse.yreturnlist.get(i).floatValue());
        zvals.append(-10*parse.zreturnlist.get(i).floatValue());
    }
-  rescale(xvals, xmaxval); rescale(yvals, ymaxval); rescale(zvals,zmaxval);
+  rescale(xvals, xmaxval); rescale(yvals, ymaxval); rescale(zvals,zmaxval); 
+  axiscolorlist();
 }
-
+void axiscolorlist(){
+  colorList.clear();
+  float xmax=findrange(xvals)[1]; float xmin=findrange(xvals)[0]; 
+  float ymax=findrange(yvals)[1]; float ymin=findrange(yvals)[0];
+  float zmax=findrange(zvals)[1]; float zmin=findrange(zvals)[0];
+  for (int j=0;j<xvals.size();j++){
+     //colorList.add(new Color(128+(xvals.get(j)-xmin)*128.0/(xmax-xmin),128+(yvals.get(j)-ymin)*128.0/(ymax-ymin),128+(zvals.get(j)-zmin)*128.0/(zmax-zmin)));
+     colorList.add(new Color(128+(xvals.get(j))*128.0/(200),128+(yvals.get(j))*128.0/(100),128+(zvals.get(j))*128.0/(200)));
+  }
+}
+float[] findrange(FloatList list){
+  float min=list.get(1);
+  float max=list.get(1);
+  for (int i=1;i<list.size();i++){
+    
+  }
+  float[] temp={min, max};
+  return (temp);
+}
 void rescale(FloatList list, float maxval){
   maxval=0;
   int sum=0;
@@ -307,6 +337,9 @@ void keyPressed(){
    }
    if((key=='v'||key=='V') && typing==0){
       typing=6; vstartval="";
+   }
+   if(key=='c'||key=='C'){
+      if(colored){colored=false;}else{colored=true;}
    }
 }
 void mouseClicked(){

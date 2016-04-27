@@ -122,13 +122,15 @@ String zexp="cosv*(2+cosu)";
 
 
 
+messed up sphere looks cool
+String uendval="p";
+String vstartval="-p";
+String vendval="p";
+String xexp="sinu*cosv";
+String yexp="sinu*cosu";
+String zexp="cosu";
 
-REAL KLEIN BOTTLE!! Wraps into itself!
-String xexp = "20*(1-cosu)";
-String yexp = "8*sinu*(1-cosu)+3*sinv*(2*p+((2*p)/(2.4*p-u))-((2*p)/(u+2.1))-(u+2))";
-String zexp="cosv*(2*p+((2*p)/(2.4*p-u))-((2.072*p)/(u+2.1))-(u+2))";p))-2)+2)";
-
-2nd KLEIN BOTTLE!! Wraps into itself!
+KLEIN BOTTLE!! Wraps into itself!
 String ustartval="0";
 String uendval="2*p";
 String vstartval="-p";
