@@ -12,22 +12,43 @@ public class Color{
   public Color(double dr, double dg, double db){
     r=(float)dr; g=(float)dg; b=(float)db;
   }
+  public Color(int dr, int dg, int db){
+    r=(float)dr; g=(float)dg; b=(float)db;
+  }
+  public Color addColor(Color c){
+      r=Math.min((int)(this.r+c.r),256); 
+      g=Math.min((int)(this.g+c.g),256); 
+      b=Math.min((int)(this.b+c.b),256);
+      return(this);
+  }
   public static void axiscolorlist(float[] xvals, float[] yvals, float[] zvals,ArrayList<Color> colorList){
+      /*ArrayList<Color>xcolors=new ArrayList<Color>();
+      ArrayList<Color>ycolors=new ArrayList<Color>();
+      ArrayList<Color>zcolors=new ArrayList<Color>();
+      Color blue=new Color(0,0,255); Color red=new Color(255,0,0); Color green=new Color(0,255,0);
+      Color yellow=new Color(255,255,0); Color cyan=new Color(0,255,255); Color pink=new Color(255,0,255);
+      heightcolorlist(xvals,xcolors,blue,yellow); heightcolorlist(yvals,ycolors,red,cyan); heightcolorlist(zvals,zcolors,green,pink);
       colorList.clear();
-      float xmax=findrange(xvals)[1]; float xmin=findrange(xvals)[0]; 
-      float ymax=findrange(yvals)[1]; float ymin=findrange(yvals)[0];
-      float zmax=findrange(zvals)[1]; float zmin=findrange(zvals)[0];
-      for (int j=0;j<xvals.length;j++){
-         //colorList.add(new Color(128+(xvals[j]-xmin)*128.0/(xmax-xmin),128+(yvals[j]-ymin)*128.0/(ymax-ymin),128+(zvals[j]-zmin)*128.0/(zmax-zmin)));
-         colorList.add(new Color(128+(xvals[j])*128.0/(xmax-xmin),128+(yvals[j])*64.0/(ymax-ymin),128+(zvals[j])*128.0/(zmax-zmin)));
+      for (int i=0;i<xcolors.size();i++){
+         colorList.add(xcolors.get(i).addColor(ycolors.get(i).addColor(zcolors.get(i))));
+      }*/
+      colorList.clear();  
+      float[] xrange=findrange(xvals); float[] yrange=findrange(yvals); float[] zrange=findrange(zvals);
+      for(int i=0;i<xvals.length;i++){
+           colorList.add(new Color(255*(xvals[i]-xrange[0])/(xrange[1]-xrange[0]),255*(yvals[i]-yrange[0])/(yrange[1]-yrange[0]),255*(zvals[i]-zrange[0])/(zrange[1]-zrange[0])));
       }
     }
- public static void heightcolorlist(float[] list,ArrayList<Color> colorList){
+ public static void heightcolorlist(float[] list,ArrayList<Color> colorList,Color first, Color second){
+   //new Color(0.0, 255.0, 0.0);     new Color(0.0, 0.0, 255.0);
       float min=findrange(list)[0];
       float max=findrange(list)[1];
       colorList.clear();
       for (int j=0;j<list.length;j++){
-         colorList.add(new Color(0,255-(list[j]-min)*255.0/(max-min),(list[j]-min)*255.0/(max-min)));
+         colorList.add(new Color(
+         first.r+(second.r-first.r)*(list[j]-min)/(max-min),
+         first.g+(second.g-first.g)*(list[j]-min)/(max-min),
+         first.b+(second.b-first.b)*(list[j]-min)/(max-min)
+         ));
       }
     }
  public static float getlength(int i,float[] xvals, float[] yvals, float[] zvals){
@@ -93,40 +114,3 @@ public class Color{
         }
    }
 }
-/*
-void heightcolorlist(FloatList list){
-  float min=list.get(1);
-  float max=list.get(1);
-  for (int i=1;i<list.length;i++){
-    if(list[i]>max){
-        max=list[i];
-    }
-    if(list[i]<min){
-        min=list[i];
-    }
-  }
-  colorList.clear();
-  for (int j=0;j<list.length;j++){
-     colorList.add(new Color(0,255-(list[j]-min)*255.0/(max-min),(list[j]-min)*255.0/(max-min)));
-  }
-}
-float getlength(int i){
-   return(pow(xvals[i]*xvals[i]+yvals[i]*yvals[i]+zvals[i]*zvals[i],0.5));
-}
-void depthcolorlist(){
-  float min=getlength(1);
-  float max=getlength(1);
-  for (int i=1;i<xvals.length;i++){
-    if(getlength(i)>max){
-        max=getlength(i);
-    }
-    if(getlength(i)<min){
-        min=getlength(i);
-    }
-  }
-  colorList.clear();
-  for (int j=0;j<xvals.length;j++){
-     colorList.add(new Color(0,255-(getlength(j)-min)*255.0/(max-min),(getlength(j)-min)*255.0/(max-min)));
-  }
-}
-*/

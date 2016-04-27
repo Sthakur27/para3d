@@ -20,7 +20,7 @@ float zmax; float zmin;
 float dheight; float dwidth=0;
 boolean paused=false;
 Boolean autorotatingForward=true;
-int colored=0; //0 purple, 1 full span, 2 z depth, 3 x depth, 4 y depth  5 xyz depth  6 critical
+int colored=0; //keep clicking 'c' to cycle thru color modes.
 
 //x  y z expressions and parameters u and v  (Copy Paste from examples to here)
 String ustartval="-p";
@@ -151,7 +151,7 @@ void applycolor(){
    if(colored==1){Color.axiscolorlist(xvals.array(),yvals.array(),zvals.array(),colorList);}
    else if(colored==2){Color.generateDepthColorList(colorList,251.0,253.0,10.0,240.0,3.0,3.0);}
    else if(colored==3){Color.generateDepthColorList(colorList,0.0,255.0,197.0,238.0,3.0,240.0);}
-   else if(colored==4){Color.generateDepthColorList(colorList,0.0,0.0,255.0,5,234.0,9.0);}
+   else if(colored==4){Color.generateDepthColorList(colorList,5,234.0,9.0,0.0,0.0,255.0);}
   // else if(colored==6){Color.criticalcolor(xvals.array(),yvals.array(),zvals.array(),colorList);}
 }
 
