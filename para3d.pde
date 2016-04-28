@@ -24,13 +24,13 @@ Boolean autorotatingForward=true;
 int colored=1; //keep clicking 'c' to cycle thru color modes.
 
 //x  y z expressions and parameters u and v  (Copy Paste from examples to here)
-String ustartval="-p";
+String ustartval="0";
 String uendval="p";
 String vstartval="-p";
 String vendval="p";
-String xexp="(8*(5-13*cosu*cosv)+144*cosu)/(13-5*cosu*cosv)";
-String yexp="(12*sinu*(13-8*cosv))/(13-5*cosu*cosv)";
-String zexp="(12*sinv*(5*cosu-8))/(13-5*cosu*cosv)";
+String xexp="cos(4*u)*cos(v)^6*cos(u)*cosv";
+String yexp="cos(4*u)*cos(v)^6*sin(u)*cosv";
+String zexp="cos(4*u)*cos(v)^6*sin(v)";
 
 String tempexp="";
 void setup(){

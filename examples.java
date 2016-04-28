@@ -232,4 +232,22 @@ String vendval="37.4";
 String xexp="-u+(2*(0.84)*cosh(0.4*u)*sinh(0.4*u))/(0.4*(0.84*(cosh(0.4*u)^2))+0.16*(sin(0.9165*v)^2))";
 String yexp="(0.84*cosh(0.4*u)*(-0.9165*cosv*cos(0.9165*v)-sinv*sin(0.9165*v)))/(0.4*(0.84*(cosh(0.4*u)^2)+0.16*(sin(0.9165*v)^2)))";
 String zexp="(0.84*cosh(0.4*u)*(-0.9165*sinv*cos(0.9165*v)+cosv*sin(0.9165*v)))/(0.4*(0.84*(cosh(0.4*u)^2)+0.16*(sin(0.9165*v)^2)))";
+
+rose rainbow projection
+String ustartval="0";
+String uendval="p";
+String vstartval="0";
+String vendval="p";
+String xexp="4*sin(5*u)*sinu+sinv";
+String yexp="4*sin(5*u)*cosu";
+String zexp="cosv";
+
+3d flower!
+String ustartval="0";
+String uendval="p";
+String vstartval="-p";
+String vendval="p";
+String xexp="cos(4*u)*cos(v)^6*cos(u)*cosv";
+String yexp="cos(4*u)*cos(v)^6*sin(u)*cosv";
+String zexp="cos(4*u)*cos(v)^6*sin(v)";
 */
