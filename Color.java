@@ -28,19 +28,6 @@ public class Color{
            colorList.add(new Color(255*(xvals[i]-xrange[0])/(xrange[1]-xrange[0]),255*(yvals[i]-yrange[0])/(yrange[1]-yrange[0]),255*(zvals[i]-zrange[0])/(zrange[1]-zrange[0])));
       }
     }
- public static void heightcolorlist(float[] list,ArrayList<Color> colorList,Color first, Color second){
-   //new Color(0.0, 255.0, 0.0);     new Color(0.0, 0.0, 255.0);
-      float min=findrange(list)[0];
-      float max=findrange(list)[1];
-      colorList.clear();
-      for (int j=0;j<list.length;j++){
-         colorList.add(new Color(
-         first.r+(second.r-first.r)*(list[j]-min)/(max-min),
-         first.g+(second.g-first.g)*(list[j]-min)/(max-min),
-         first.b+(second.b-first.b)*(list[j]-min)/(max-min)
-         ));
-      }
-    }
  public static float getlength(int i,float[] xvals, float[] yvals, float[] zvals){
        return((float)Math.pow(xvals[i]*xvals[i]+yvals[i]*yvals[i]+zvals[i]*zvals[i],0.5));
     }
@@ -62,9 +49,6 @@ public class Color{
  }
  public static void generateDepthColorList(ArrayList<Color> list,float r1, float g1, float b1, float r2, float g2, float b2){
       depthcolors.clear();
-      /*for (int j=0;j<xvals.length;j++){
-         depthlist.add(new Color(0,255-(getlength(j,xvals,yvals,zvals)-min)*255.0/(max-min),(getlength(j,xvals,yvals,zvals)-min)*255.0/(max-min)));
-      }*/
       for (int j=0;j<depthvalues.size();j++){
          depthcolors.add(new Color(
          r1+((r2-r1)*depthvalues.get(j)/10),
@@ -102,5 +86,20 @@ public class Color{
           }
           else{colorList.add(new Color(0,0,255));}
         }
+   }
+   public static void showColor(float[] x, float[] y, float[] z, ArrayList<Color> colorList,float r1, float g1, float b1, float r2, float g2, float b2,boolean mode){
+      if(mode){xyzc1c2(x,y,z,colorList,new Color(r1,g1,b1),new Color(r2,g2,b2));}
+      else{generateDepthColorList(colorList, r1,  g1,  b1,  r2,  g2,  b2);}
+   }
+   public static void xyzc1c2(float[] x, float[] y, float[] z,ArrayList<Color> colorList, Color c1, Color c2){
+      colorList.clear();  
+      float[] xrange=findrange(x); float[] yrange=findrange(y); float[] zrange=findrange(z);
+      for(int i=0;i<x.length;i++){
+           colorList.add(new Color(
+           c1.r+(c2.r-c1.r)*(x[i]-xrange[0])/(xrange[1]-xrange[0]),
+           c1.g+(c2.g-c1.g)*(y[i]-yrange[0])/(yrange[1]-yrange[0]),
+           c1.b+(c2.b-c1.b)*(z[i]-zrange[0])/(zrange[1]-zrange[0])
+           ));
+      }
    }
 }

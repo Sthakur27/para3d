@@ -10,6 +10,7 @@ boolean clicktype=false;
 int rchoose=1;
 int timer=1;
 int timer2=1;
+boolean depthcolor=true;
 float xscale=1; float yscale=1; float zscale=1;
 int typing=0;  //typing changes meaning based on number   0:not typing  1: typing x exp 2: typing y exp 3: typing z exp  4: typing u start 5: typing u end   6: z start 7: zend
 float xmaxval=0; float ymaxval=0; float zmaxval=0;
@@ -19,8 +20,8 @@ int numofintervals=80;
 float zmax; float zmin;
 float dheight;
 boolean paused=false;
-Boolean autorotatingForward=true;
-Boolean displayon=true;
+boolean autorotatingForward=true;
+boolean displayon=true;
 int colored=1; //keep clicking 'c' to cycle thru color modes.
 int backgroundcolor=255;
 
@@ -148,11 +149,13 @@ void calculate(){
   applycolor();
 }
 void applycolor(){
+   Color cyan=new Color(0.0,255.0,197.0); Color purple=new Color(238.0,3.0,240.0);
    if(colored==1){Color.axiscolorlist(xvals.array(),yvals.array(),zvals.array(),colorList);}
-   else if(colored==2){Color.generateDepthColorList(colorList,251.0,253.0,10.0,240.0,3.0,3.0);}
-   else if(colored==3){Color.generateDepthColorList(colorList,0.0,255.0,197.0,238.0,3.0,240.0);}
-   else if(colored==4){Color.generateDepthColorList(colorList,5,234.0,9.0,0.0,0.0,255.0);}
-   else if(colored==5){Color.generateDepthColorList(colorList,238,3.0,240.0,0.0,255,0.0);}
+   else if(colored==2){Color.showColor(xvals.array(),yvals.array(),zvals.array(),colorList,251.0,253.0,10.0,240.0,3.0,3.0,depthcolor);}
+   else if(colored==3){Color.showColor(xvals.array(),yvals.array(),zvals.array(),colorList,0.0,255.0,197.0,238.0,3.0,240.0,depthcolor);}   
+   //else if(colored==3){Color.xyzc1c2(xvals.array(),yvals.array(),zvals.array(),colorList,cyan,purple);}
+   else if(colored==4){Color.showColor(xvals.array(),yvals.array(),zvals.array(),colorList,5,234.0,9.0,0.0,0.0,255.0,depthcolor);}
+   else if(colored==5){Color.showColor(xvals.array(),yvals.array(),zvals.array(),colorList,238,3.0,240.0,0.0,255,0.0,depthcolor);}
 }
 
 void rescale(FloatList list, float maxval){
@@ -229,7 +232,7 @@ void keyPressed(){
    }
 
    if(key=='r'||key=='R'){
-      rx=0; rz=0;  timer2=0; ztranslate=0;
+      rx=0; rz=0;  timer2=0; ztranslate=0; xtranslate=0; ytranslate=0;
    }
    if(key=='x'||key=='X'){
       rchoose=4;
@@ -241,7 +244,7 @@ void keyPressed(){
       rchoose=5;
    }
    if(key=='d'||key=='D'){
-      println("dank");
+      if(depthcolor){depthcolor=false;}else{depthcolor=true;} applycolor();
    }
    if((key=='p'||key=='P')&&typing==0){
       println("String ustartval=\""+ustartval+"\";");

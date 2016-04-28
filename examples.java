@@ -145,6 +145,15 @@ u+0.25*u^2*sinv*cosu
 u^2+0.25*u^2*sinv*sinu
 u^2*cosv
 
+monkey sadle
+String ustartval="-p";
+String uendval="p";
+String vstartval="-p";
+String vendval="p";
+String xexp="u";
+String yexp="v";
+String zexp="u^3-3*u*v^2";
+
 pseudosphere 
 String ustartval="-2*p";
 String uendval="2*p";
