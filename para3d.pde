@@ -7,6 +7,7 @@ FloatList zvals=new FloatList();
 ArrayList<Color>colorList=new ArrayList();
 boolean line=true;
 boolean axis=true;
+boolean clicktype=false;
 int rchoose=1;
 int timer=1;
 int timer2=1;
@@ -20,7 +21,7 @@ float zmax; float zmin;
 float dheight; float dwidth=0;
 boolean paused=false;
 Boolean autorotatingForward=true;
-int colored=0; //keep clicking 'c' to cycle thru color modes.
+int colored=1; //keep clicking 'c' to cycle thru color modes.
 
 //x  y z expressions and parameters u and v  (Copy Paste from examples to here)
 String ustartval="-p";
@@ -260,23 +261,27 @@ void keyPressed(){
       dwidth-=20;
    }
    if(keyCode==ENTER){
-       if(typing==0){typing++; xexp=""; 
-       } 
-       else if(typing==1){
-       yexp=""; typing++;}
-       else if(typing==2){
-       zexp=""; typing++;}
-       else if(typing==3){ 
-          typing=0; rx=0; rz=0; timer2=0;  calculate();}
-       else if(typing==4){ 
-          typing=5; uendval="";}
-       else if(typing==5){ 
-          typing=0; rx=0; rz=0; timer2=0;  calculate();}
-       else if(typing==6){ 
-          typing=7; vendval="";}
-       else if(typing==7){ 
-          typing=0; rx=0; rz=0; timer2=0;  calculate();}
+       if(clicktype){typing=0; clicktype=false;}
+       else{
+           if(typing==0){typing++; xexp=""; 
+           } 
+           else if(typing==1){
+           yexp=""; typing++;}
+           else if(typing==2){
+           zexp=""; typing++;}
+           else if(typing==3){ 
+              typing=0; rx=0; rz=0; timer2=0;  calculate();}
+           else if(typing==4){ 
+              typing=5; uendval="";}
+           else if(typing==5){ 
+              typing=0; rx=0; rz=0; timer2=0;  calculate();}
+           else if(typing==6){ 
+              typing=7; vendval="";}
+           else if(typing==7){ 
+              typing=0; rx=0; rz=0; timer2=0;  calculate();}
+       }
    }
+   if(key=='g'||key=='G'){typing=0; calculate();}
    if(typing!=0){
       if(keyCode!=SHIFT && keyCode!=ENTER && keyCode!=BACKSPACE && keyCode!=DELETE){
          if(typing==1){xexp=xexp+Character.toString(key);}
@@ -290,20 +295,20 @@ void keyPressed(){
       }
    }
    if((keyCode==DELETE||keyCode==BACKSPACE)){
-      if(typing==1){
+      if(typing==1 && xexp.length()>0){
       xexp=xexp.substring(0,xexp.length()-1);}
-      if (typing ==2){
+      if (typing ==2 && yexp.length()>0){
         yexp=yexp.substring(0,yexp.length()-1);
       }
-      if(typing==3){zexp=zexp.substring(0,zexp.length()-1);
+      if(typing==3 && zexp.length()>0){zexp=zexp.substring(0,zexp.length()-1);
       }
-      if(typing==4){ustartval=ustartval.substring(0,ustartval.length()-1);
+      if(typing==4 && ustartval.length()>0){ustartval=ustartval.substring(0,ustartval.length()-1);
       }
-      if(typing==5){uendval=uendval.substring(0,uendval.length()-1);
+      if(typing==5 && uendval.length()>0){uendval=uendval.substring(0,uendval.length()-1);
       }
-      if(typing==6){vstartval=vstartval.substring(0,vstartval.length()-1);
+      if(typing==6 && vstartval.length()>0){vstartval=vstartval.substring(0,vstartval.length()-1);
       }
-      if(typing==7){vendval=vendval.substring(0,vendval.length()-1);
+      if(typing==7 && vendval.length()>0){vendval=vendval.substring(0,vendval.length()-1);
       }
    }
     if((key=='u'||key=='U') && typing==0){
@@ -318,7 +323,16 @@ void keyPressed(){
    }
 }
 void mouseClicked(){
-  if(!paused){paused=true;}else{   paused=false;}
+  println(mouseX);
+  clicktype=true;
+  if(mouseX>10 && mouseX<200 && mouseY>6 && mouseY<19){typing=1; xexp="";}  //x
+  else if(mouseX>10 && mouseX<200 && mouseY>19 && mouseY<41){typing=2; yexp="";} //y
+  else if(mouseX>10 && mouseX<200 && mouseY>41 && mouseY<61){typing=3; zexp="";} //z
+  else if(width-mouseX<28 && mouseY>6 && mouseY<19){typing=5; uendval="";} //uend
+  else if(width-mouseX<90 && mouseY>6 && mouseY<19){typing=4; ustartval="";} //ustart
+  else if(width-mouseX<28 && mouseY>19 && mouseY<41){typing=7; vendval="";}//vend
+  else if(width-mouseX<90 && mouseY>19 && mouseY<41){typing=6; vstartval="";} //vstart
+  else {clicktype=false; if(!paused){paused=true;}else{   paused=false;}}
 }
 void mouseWheel(MouseEvent event) {
   int e = event.getCount();

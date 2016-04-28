@@ -1,12 +1,12 @@
 import java.lang.Math;
 import java.util.*;
-public class parse{
+public class parse{ 
     static String exp;
     static String type1="E0123456789.ep";
     static String type2="+-*/^";
     static String type3="()";
     static String type4="cossintanlogcoshsinh"; //cos  sin tan log
-    static String vars="uv";
+    static String all="E0123456789.ep+-*/^cossintanlogcoshsinhuv()";
     static ArrayList<pObj> pobs=new ArrayList<>();
     static ArrayList<Double> xreturnlist=new ArrayList<>();
     static ArrayList<Double> yreturnlist=new ArrayList<>();
@@ -24,16 +24,21 @@ public class parse{
       //first check if string is valid:
       boolean valid=true;
       for(int m=0;m<str.length();m++){
-         
+        //check for unrecognized characters
+         if(all.indexOf(str.substring(m,m+1))==-1){valid=false;System.out.println(str+" has unrecognized characters: "+str.substring(m,m+1));}
       }
-      //for every u val        
-      for(double u=ustart;u<=(uend+(ustep/2));u+=ustep){
-          //for every v value on interval
-          for (double v=vstart;v<=vend+(vstep/2); v+=vstep){
-             if(str.equals("")){
-               list.add(0.0);
-             }
-             else{
+      //check for unmatched paranethesis
+      int parencount=0;
+      for(int n=0;n<str.length();n++){
+        //check for unrecognized characters
+         if(str.substring(n,n+1).equals("(")){parencount++;} if(str.substring(n,n+1).equals(")")){parencount--;}
+      }
+      if(parencount!=0){valid=false; System.out.println(str+" has not enough parenthesis");}
+      if(valid && !str.equals("")){
+         //for every u val        
+        for(double u=ustart;u<=(uend+(ustep/2));u+=ustep){
+            //for every v value on interval
+            for (double v=vstart;v<=vend+(vstep/2); v+=vstep){               
                  String temp=str.replaceAll("u","("+Double.toString(u)+")");
                  exp=temp.replaceAll("v","("+Double.toString(v)+")");
                  //System.out.println(exp);
@@ -41,10 +46,15 @@ public class parse{
                  fulleval();
                  double answer=pobs.get(0).num;
                  pobs.clear();
-                 list.add(answer);            
-             }
-          }
-        } 
+                 list.add(answer);                          
+            }
+          } 
+      }
+      else{
+         for(double u=ustart;u<=(uend+(ustep/2));u+=ustep){
+            for (double v=vstart;v<=vend+(vstep/2); v+=vstep){
+                 list.add(0.0);}}
+      }
     }
     public static double interp(String str){
         if(str.equals("")){return(0);}
