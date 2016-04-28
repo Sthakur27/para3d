@@ -186,7 +186,7 @@ String vstartval="0";
 String vendval="p";
 String xexp="cosu*sinv";
 String yexp="sinu*sinv";
-String zexp="(log(tan(0.5*v))+cosv)+0.2*u";
+String zexp="0.25*((log(tan(0.5*v))+cosv)+0.2*u)";
 
 steiner surface
 String ustartval="0";
@@ -229,9 +229,9 @@ String ustartval="-14";
 String uendval="14";
 String vstartval="-37.4";
 String vendval="37.4";
-String xexp="-u+(2*(0.84)*cosh(0.4*u)*sinh(0.4*u))/(0.4*(0.84*(cosh(0.4*u)^2))+0.16*(sin(0.9165*v)^2))";
+String zexp="0.25*(-u+(2*(0.84)*cosh(0.4*u)*sinh(0.4*u))/(0.4*(0.84*(cosh(0.4*u)^2))+0.16*(sin(0.9165*v)^2)))";
 String yexp="(0.84*cosh(0.4*u)*(-0.9165*cosv*cos(0.9165*v)-sinv*sin(0.9165*v)))/(0.4*(0.84*(cosh(0.4*u)^2)+0.16*(sin(0.9165*v)^2)))";
-String zexp="(0.84*cosh(0.4*u)*(-0.9165*sinv*cos(0.9165*v)+cosv*sin(0.9165*v)))/(0.4*(0.84*(cosh(0.4*u)^2)+0.16*(sin(0.9165*v)^2)))";
+String xexp="(0.84*cosh(0.4*u)*(-0.9165*sinv*cos(0.9165*v)+cosv*sin(0.9165*v)))/(0.4*(0.84*(cosh(0.4*u)^2)+0.16*(sin(0.9165*v)^2)))";
 
 rose rainbow projection
 String ustartval="0";

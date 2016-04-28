@@ -168,7 +168,12 @@ public class parse{
            if(list.get(i).opernum==6){list.get(i+1).num=Math.sin(list.get(i+1).num); }
            else if(list.get(i).opernum==7){list.get(i+1).num=Math.cos(list.get(i+1).num); }
            else if(list.get(i).opernum==8){list.get(i+1).num=Math.tan(list.get(i+1).num); }
-           else if(list.get(i).opernum==9){list.get(i+1).num=Math.log(list.get(i+1).num); }
+           //check for logs<=0
+           else if(list.get(i).opernum==9){
+               if(list.get(i+1).num>0){
+               list.get(i+1).num=Math.log(list.get(i+1).num); }
+               else{list.get(i+1).num=0;}
+           }
            else if(list.get(i).opernum==10){list.get(i+1).num=Math.sinh(list.get(i+1).num); }
            else if(list.get(i).opernum==11){list.get(i+1).num=Math.cosh(list.get(i+1).num); }
            return(1);

@@ -22,16 +22,6 @@ public class Color{
       return(this);
   }
   public static void axiscolorlist(float[] xvals, float[] yvals, float[] zvals,ArrayList<Color> colorList){
-      /*ArrayList<Color>xcolors=new ArrayList<Color>();
-      ArrayList<Color>ycolors=new ArrayList<Color>();
-      ArrayList<Color>zcolors=new ArrayList<Color>();
-      Color blue=new Color(0,0,255); Color red=new Color(255,0,0); Color green=new Color(0,255,0);
-      Color yellow=new Color(255,255,0); Color cyan=new Color(0,255,255); Color pink=new Color(255,0,255);
-      heightcolorlist(xvals,xcolors,blue,yellow); heightcolorlist(yvals,ycolors,red,cyan); heightcolorlist(zvals,zcolors,green,pink);
-      colorList.clear();
-      for (int i=0;i<xcolors.size();i++){
-         colorList.add(xcolors.get(i).addColor(ycolors.get(i).addColor(zcolors.get(i))));
-      }*/
       colorList.clear();  
       float[] xrange=findrange(xvals); float[] yrange=findrange(yvals); float[] zrange=findrange(zvals);
       for(int i=0;i<xvals.length;i++){
