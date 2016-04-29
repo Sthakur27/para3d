@@ -11,17 +11,23 @@ public class parse{
     static ArrayList<Double> xreturnlist=new ArrayList<>();
     static ArrayList<Double> yreturnlist=new ArrayList<>();
     static ArrayList<Double> zreturnlist=new ArrayList<>();
-    public static void parainterp(String str1, String str2, String str3, double ustart, double uend,double vstart, double vend, double numofsteps){
+    static boolean pointexists=true;
+    public static void parainterp(String str1, String str2, String str3, double ustart, double uend,double vstart, double vend, double numofsteps,ArrayList<Boolean> validpoints){
         //evaluates every string and fills values in corresponding returnlist.  to access the list use parse.xreturnlist etc
+        validpoints.clear();
+        for(int i=0;i<(numofsteps+1)*(numofsteps+1);i++){
+            validpoints.add(true);
+        }
         xreturnlist.clear();
         yreturnlist.clear();
         zreturnlist.clear();
-        interponevar(xreturnlist,str1,ustart,uend,vstart,vend,(uend-ustart)/numofsteps,(vend-vstart)/numofsteps);
-        interponevar(yreturnlist,str2,ustart,uend,vstart,vend,(uend-ustart)/numofsteps,(vend-vstart)/numofsteps);
-        interponevar(zreturnlist,str3,ustart,uend,vstart,vend,(uend-ustart)/numofsteps,(vend-vstart)/numofsteps);
+        interponevar(xreturnlist,str1,ustart,uend,vstart,vend,(uend-ustart)/numofsteps,(vend-vstart)/numofsteps,validpoints);
+        interponevar(yreturnlist,str2,ustart,uend,vstart,vend,(uend-ustart)/numofsteps,(vend-vstart)/numofsteps,validpoints);
+        interponevar(zreturnlist,str3,ustart,uend,vstart,vend,(uend-ustart)/numofsteps,(vend-vstart)/numofsteps,validpoints);
     }
-    public static void interponevar(ArrayList<Double> list,String str, double ustart, double uend, double vstart, double vend, double ustep,double vstep){
+    public static void interponevar(ArrayList<Double> list,String str, double ustart, double uend, double vstart, double vend, double ustep,double vstep,ArrayList<Boolean> validpoints){
       //first check if string is valid:
+      int poscounter=0;
       boolean valid=true;
       for(int m=0;m<str.length();m++){
         //check for unrecognized characters
@@ -43,12 +49,16 @@ public class parse{
                  exp=temp.replaceAll("v","("+Double.toString(v)+")");
                  //System.out.println(exp);
                  classify();
-                 fulleval();
+                 //does full eval  and if point doesn't exist appends it to asymptote list
+                 if(!fulleval()){validpoints.set(poscounter,false); 
+                 }
                  double answer=pobs.get(0).num;
                  pobs.clear();
-                 list.add(answer);                          
+                 list.add(answer);        
+                 poscounter++;
             }
           } 
+        //double check last point for validity
       }
       else{
          for(double u=ustart;u<=(uend+(ustep/2));u+=ustep){
@@ -60,14 +70,10 @@ public class parse{
         if(str.equals("")){return(0);}
         exp=str;
         classify();
-        /*System.out.println("*****");
-        print();System.out.println("*****");*/
         fulleval();
         double temp=pobs.get(0).num;
         pobs.clear();
         return(temp);
-        //parse.eval(0,pobs.size()-1);
-        //print();
     }
     public static void classify(){
         //char[]temp=exp.toCharArray();
@@ -114,7 +120,8 @@ public class parse{
         return false;
     }
     //parenthesis eval
-    public static void fulleval(){
+    public static boolean fulleval(){
+      pointexists=true;
         int left=0;
         while(paren()){
             for (int j=0;j<pobs.size();j++){
@@ -131,28 +138,25 @@ public class parse{
         }   
         //now the parenthesis are all gone
         eval(0,pobs.size()-1);
+        if(!pointexists){pobs.get(0).num=0;}
+        return(pointexists);
     }
     //startpos is  after (  and endpos is before )
     public static void eval(int startpos,int endpos){
       for(int prior=4;prior>=1;prior=prior-1){
          for(int i=startpos;i<endpos;i++){
             if(pobs.get(i).priority==prior){
-              int numofremovals=operate(pobs,i);
-              //System.out.println("Operating "+pobs.get(i));
+              int numofremovals=operate(pobs,i);              
               for (int j=0;j<numofremovals;j++){                
                   pobs.remove(i);
               }
-              i-=1; endpos-=numofremovals;
-              /*if(pobs.get(i).mode==3){pobs.remove(i); endpos-=1; i-=1;}
-              else{pobs.remove(i+1);pobs.remove(i);endpos-=2; i-=1;}*/
-            }
-              
+              i-=1; endpos-=numofremovals;             
+            }              
          }
       }
     }
     public static int operate(ArrayList<pObj> list, int i){
         if(pobs.get(i).mode==1){
-           //System.out.println(list.get(i).opernum);
            if(list.get(i).opernum==1){list.get(i-1).num=list.get(i-1).num+list.get(i+1).num;      }
            else if(list.get(i).opernum==2){
                  if(i==0||list.get(i-1).mode!=0){
@@ -172,7 +176,7 @@ public class parse{
            else if(list.get(i).opernum==9){
                if(list.get(i+1).num>0){
                list.get(i+1).num=Math.log(list.get(i+1).num); }
-               else{list.get(i+1).num=0;}
+               else{list.get(i+1).num=0; pointexists=false;}
            }
            else if(list.get(i).opernum==10){list.get(i+1).num=Math.sinh(list.get(i+1).num); }
            else if(list.get(i).opernum==11){list.get(i+1).num=Math.cosh(list.get(i+1).num); }

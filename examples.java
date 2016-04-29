@@ -109,9 +109,16 @@ public class examples{
     }
     else if(index==18){
      //breather  
-         String[] temp={"-14","14","-37.4","37.4","0.25*(-u+(2*(0.84)*cosh(0.4*u)*sinh(0.4*u))/(0.4*(0.84*(cosh(0.4*u)^2))+0.16*(sin(0.9165*v)^2)))",
-     "(0.84*cosh(0.4*u)*(-0.9165*cosv*cos(0.9165*v)-sinv*sin(0.9165*v)))/(0.4*(0.84*(cosh(0.4*u)^2)+0.16*(sin(0.9165*v)^2)))",
-   "(0.84*cosh(0.4*u)*(-0.9165*sinv*cos(0.9165*v)+cosv*sin(0.9165*v)))/(0.4*(0.84*(cosh(0.4*u)^2)+0.16*(sin(0.9165*v)^2)))"};
+         String[] temp={"-14","14","-37.4","37.4", "(0.84*cosh(0.4*u)*(-0.9165*sinv*cos(0.9165*v)+cosv*sin(0.9165*v)))/(0.4*(0.84*(cosh(0.4*u)^2)+0.16*(sin(0.9165*v)^2)))",
+     "(0.84*cosh(0.4*u)*(-0.9165*cosv*cos(0.9165*v)-sinv*sin(0.9165*v)))/(0.4*(0.84*(cosh(0.4*u)^2)+0.16*(sin(0.9165*v)^2)))", 
+ "0.25*(-u+(2*(0.84)*cosh(0.4*u)*sinh(0.4*u))/(0.4*(0.84*(cosh(0.4*u)^2))+0.16*(sin(0.9165*v)^2)))"};
+       return(temp);
+    }
+    else if(index==19){
+     //3d flower  
+         String[] temp={"0","p","-p","p","cos(4*u)*cos(v)^6*cos(u)*cosv",
+         "cos(4*u)*cos(v)^6*sin(u)*cosv",
+         "cos(4*u)*cos(v)^6*sin(v)"};
        return(temp);
     }
     return(new String[]{});
@@ -167,14 +174,6 @@ String yexp = "sin(u/2)*(5+sin(v/2)*cos(u/4)-sin(v)*sin(u/4)/2)";
 String zexp = "sin(u/4)*sin(v/2)+cos(u/4)*sin(v)/2";
 
 
-KLEIN BOTTLE!! Wraps into itself!
-String ustartval="0";
-String uendval="2*p";
-String vstartval="-p";
-String vendval="p";
-String xexp="20*(1-cosu)";
-String yexp="8*sinu*(1-cosu)+3*sinv*(((1/8)*(u*(5.5/(2*p)))*(u*(5.5/(2*p))-5.5)*(u*(5.5/(2*p))-2))+2)";
-String zexp="cosv*(((1/8)*(u*(5.5/(2*p)))*(u*(5.5/(2*p))-5.5)*(u*(5.5/(2*p))-2))+2)";
 
 Cool thingy
 
@@ -182,23 +181,6 @@ u+0.25*u^2*sinv*cosu
 u^2+0.25*u^2*sinv*sinu
 u^2*cosv
 
-monkey sadle
-String ustartval="-p";
-String uendval="p";
-String vstartval="-p";
-String vendval="p";
-String xexp="u";
-String yexp="v";
-String zexp="u^3-3*u*v^2";
-
-pseudosphere 
-String ustartval="-2*p";
-String uendval="2*p";
-String vstartval="0";
-String vendval="p";
-String xexp="cosu*sinv";
-String yexp="sinu*sinv";
-String zexp="cosv+log(tan(0.5*v))";
 
 trippy
 u: (-2*p, 2*p)    v: (-p, p)
@@ -207,50 +189,7 @@ String yexp="(sinu+2*sin(2*u))/(2+cos(v+p*2/3))"
 String zexp="(cosu-2*cos(2*u))*(2+cosv)*(2+cos(v+p*2/3))/4"
 
 
-enneper 
-String ustartval="-p";
-String uendval="p";
-String vstartval="-p";
-String vendval="p";
-String xexp="u*((1-(u^2)/3)+v^2)";
-String yexp="-v*((1-(v^2)/3)+u^2)";
-String zexp="(u^2-v^2)/3";
 
-kuen surface
-String ustartval="-p";
-String uendval="p";
-String vstartval="0";
-String vendval="p";
-String xexp="(2*(cosu+u*sinu)*sinv)/(1+u^2*(sinv)^2)";
-String yexp="(2*(sinu-u*cosu)*sinv)/(1+u^2*(sinv)^2)";
-String zexp="log(tan(0.5*v))+(2*cosv/(1+u^2*(sinv)^2))";
-
-dini's surface
-String ustartval="-2*p";
-String uendval="2*p";
-String vstartval="0";
-String vendval="p";
-String xexp="cosu*sinv";
-String yexp="sinu*sinv";
-String zexp="0.25*((log(tan(0.5*v))+cosv)+0.2*u)";
-
-steiner surface
-String ustartval="0";
-String uendval="p";
-String vstartval="0";
-String vendval="p";
-String xexp="cosu*cosv*sinv";
-String yexp="sinu*cosv*sinv";
-String zexp="cosu*sinu*(cosv)^2";
-
-right conoid  note: z's (1*u) can vary for different kinds of conoids
-String ustartval="-p";
-String uendval="p";
-String vstartval="-p";
-String vendval="p";
-String xexp="v*cosu";
-String yexp="v*sinu";
-String zexp="2*sin(1*u)";
 
 conical edge
 String ustartval="-p";
@@ -261,23 +200,6 @@ String xexp="v*cosu";
 String yexp="v*sinu";
 String zexp="((16-9*(cosu^2))^0.5)";
 
-spherical helicoid  f(x)=x g(x)=x^2
-String ustartval="-2*p";
-String uendval="2*p";
-String vstartval="-2*p";
-String vendval="2*p";
-String xexp="u*cosv";
-String yexp="u*sinv";
-String zexp="u^2+6*v-20";
-
-breather
-String ustartval="-14";
-String uendval="14";
-String vstartval="-37.4";
-String vendval="37.4";
-String zexp="0.25*(-u+(2*(0.84)*cosh(0.4*u)*sinh(0.4*u))/(0.4*(0.84*(cosh(0.4*u)^2))+0.16*(sin(0.9165*v)^2)))";
-String yexp="(0.84*cosh(0.4*u)*(-0.9165*cosv*cos(0.9165*v)-sinv*sin(0.9165*v)))/(0.4*(0.84*(cosh(0.4*u)^2)+0.16*(sin(0.9165*v)^2)))";
-String xexp="(0.84*cosh(0.4*u)*(-0.9165*sinv*cos(0.9165*v)+cosv*sin(0.9165*v)))/(0.4*(0.84*(cosh(0.4*u)^2)+0.16*(sin(0.9165*v)^2)))";
 
 rose rainbow projection
 String ustartval="0";

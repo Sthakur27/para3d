@@ -5,9 +5,10 @@ FloatList xvals=new FloatList();
 FloatList yvals=new FloatList();
 FloatList zvals=new FloatList();
 ArrayList<Color>colorList=new ArrayList();
+ArrayList<Boolean>validpoints=new ArrayList();
 boolean line=true;
 boolean clicktype=false;
-int exampleNumber=-1;
+int exampleNumber=11;
 int rchoose=1;
 int timer=1;
 int timer2=1;
@@ -27,13 +28,13 @@ int colored=1; //keep clicking 'c' to cycle thru color modes.
 int backgroundcolor=255;
 
 //x  y z expressions and parameters u and v  (Copy Paste from examples to here)
-String ustartval="-14";
-String uendval="14";
+String ustartval="-p";
+String uendval="p";
 String vstartval="-37.4";
 String vendval="37.4";
-String zexp="0.25*(-u+(2*(0.84)*cosh(0.4*u)*sinh(0.4*u))/(0.4*(0.84*(cosh(0.4*u)^2))+0.16*(sin(0.9165*v)^2)))";
-String yexp="(0.84*cosh(0.4*u)*(-0.9165*cosv*cos(0.9165*v)-sinv*sin(0.9165*v)))/(0.4*(0.84*(cosh(0.4*u)^2)+0.16*(sin(0.9165*v)^2)))";
-String xexp="(0.84*cosh(0.4*u)*(-0.9165*sinv*cos(0.9165*v)+cosv*sin(0.9165*v)))/(0.4*(0.84*(cosh(0.4*u)^2)+0.16*(sin(0.9165*v)^2)))";
+String zexp="v";
+String yexp="logv";
+String xexp="0";
 
 
 String tempexp="";
@@ -129,17 +130,21 @@ void draw(){
     dheight=height;
 }
 void drawV(int i){
+  if(validpoints.get(i)&&validpoints.get(i+1)){
   if(colored!=0){stroke(colorList.get(i).r,colorList.get(i).g,colorList.get(i).b);}
   line(xscale*xvals.get(i),zscale*zvals.get(i),yscale*yvals.get(i),xscale*xvals.get(i+1),zscale*zvals.get(i+1),yscale*yvals.get(i+1));
+  }
 }
 
 void drawU(int i){
+  if(validpoints.get(i)&&validpoints.get(i+1+numofintervals)){
   if(colored!=0){stroke(colorList.get(i).r,colorList.get(i).g,colorList.get(i).b);}
   line(xscale*xvals.get(i),zscale*zvals.get(i),yscale*yvals.get(i),xscale*xvals.get(i+numofintervals+1),zscale*zvals.get(i+numofintervals+1),yscale*yvals.get(i+numofintervals+1));
+  }
 }
 void calculate(){
   xvals.clear(); yvals.clear(); zvals.clear();
-  parse.parainterp(xexp,yexp,zexp,parse.interp(ustartval),parse.interp(uendval),parse.interp(vstartval),parse.interp(vendval),numofintervals);
+  parse.parainterp(xexp,yexp,zexp,parse.interp(ustartval),parse.interp(uendval),parse.interp(vstartval),parse.interp(vendval),numofintervals,validpoints);
   for (int i=0;i<parse.xreturnlist.size();i++){
        xvals.append(10*parse.xreturnlist.get(i).floatValue());
        yvals.append(10*parse.yreturnlist.get(i).floatValue());
@@ -148,6 +153,7 @@ void calculate(){
   Color.generateDepthValues(xvals.array(),yvals.array(),zvals.array());
   rescale(xvals, xmaxval); rescale(yvals, ymaxval); rescale(zvals,zmaxval);
   applycolor();
+  //findAsymptotes(xvals); findAsymptotes(yvals); findAsymptotes(zvals);
 }
 void applycolor(){
    Color cyan=new Color(0.0,255.0,197.0); Color purple=new Color(238.0,3.0,240.0);
@@ -158,7 +164,30 @@ void applycolor(){
    else if(colored==4){Color.showColor(xvals.array(),yvals.array(),zvals.array(),colorList,5,234.0,9.0,0.0,0.0,255.0,depthcolor);}
    else if(colored==5){Color.showColor(xvals.array(),yvals.array(),zvals.array(),colorList,238,3.0,240.0,0.0,255,0.0,depthcolor);}
 }
-
+/*void findAsymptotes(FloatList list){
+  //find abs biggest values for rescaling
+  float maxval=abs(list.get(0));
+  for (int i=1;i<list.size();i++){
+        if (abs(list.get(i))>maxval){
+              maxval=abs(list.get(i));
+              if(100/maxval==0){
+                  if(i-1>=0){
+                  maxval=abs(list.get(i-1));
+                  break;
+                  }
+                  else{
+                    maxval=abs(list.get(i+1));
+                    break;
+                  }
+              }
+        }
+  }
+  for(int i=0;i<list.size()-(1+numofintervals);i++){
+     if(abs(list.get(i+1)-list.get(i))>maxval/2||abs(list.get(i+numofintervals+1)-list.get(i))>maxval/2){
+        validpoints.set(i,false);
+     }
+  }
+}*/
 void rescale(FloatList list, float maxval){
   maxval=0;
   int sum=0;
@@ -225,7 +254,7 @@ void keyPressed(){
    }
    if((key=='h'||key=='H')&& typing==0){   if(displayon){displayon=false;} else{displayon=true;}   }
    if((key=='w'||key=='W')&& typing==0){  
-       if(exampleNumber<1){exampleNumber=18;} else{exampleNumber--;}
+       if(exampleNumber<1){exampleNumber=19;} else{exampleNumber--;}
        String[] temp=examples.getExample(exampleNumber); 
        ustartval=temp[0];
        uendval=temp[1];
@@ -237,7 +266,7 @@ void keyPressed(){
        calculate();  
    }
    if((key=='e'||key=='E')&& typing==0){  
-       if(exampleNumber>17){exampleNumber=0;} else{exampleNumber++;}
+       if(exampleNumber>18){exampleNumber=0;} else{exampleNumber++;}
        String[] temp=examples.getExample(exampleNumber); 
        ustartval=temp[0];
        uendval=temp[1];
