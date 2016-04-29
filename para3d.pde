@@ -7,6 +7,7 @@ FloatList zvals=new FloatList();
 ArrayList<Color>colorList=new ArrayList();
 boolean line=true;
 boolean clicktype=false;
+int exampleNumber=-1;
 int rchoose=1;
 int timer=1;
 int timer2=1;
@@ -223,6 +224,30 @@ void keyPressed(){
      if(rchoose>2){rchoose=0;}
    }
    if((key=='h'||key=='H')&& typing==0){   if(displayon){displayon=false;} else{displayon=true;}   }
+   if((key=='w'||key=='W')&& typing==0){  
+       if(exampleNumber<1){exampleNumber=18;} else{exampleNumber--;}
+       String[] temp=examples.getExample(exampleNumber); 
+       ustartval=temp[0];
+       uendval=temp[1];
+       vstartval=temp[2];
+       vendval=temp[3];
+       xexp=temp[4];
+       yexp=temp[5];
+       zexp=temp[6];
+       calculate();  
+   }
+   if((key=='e'||key=='E')&& typing==0){  
+       if(exampleNumber>17){exampleNumber=0;} else{exampleNumber++;}
+       String[] temp=examples.getExample(exampleNumber); 
+       ustartval=temp[0];
+       uendval=temp[1];
+       vstartval=temp[2];
+       vendval=temp[3];
+       xexp=temp[4];
+       yexp=temp[5];
+       zexp=temp[6];
+       calculate();  
+   }
    if((key=='b'||key=='B')){   if(autorotatingForward){autorotatingForward=false;} else{autorotatingForward=true;}   }
    if((key=='i'||key=='I') && typing==0){if(backgroundcolor==0){backgroundcolor=255;} else{backgroundcolor=0;}}
    if(key=='s'||key=='S'){

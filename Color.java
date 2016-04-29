@@ -88,7 +88,7 @@ public class Color{
         }
    }
    public static void showColor(float[] x, float[] y, float[] z, ArrayList<Color> colorList,float r1, float g1, float b1, float r2, float g2, float b2,boolean mode){
-      if(mode){xyzc1c2(x,y,z,colorList,new Color(r1,g1,b1),new Color(r2,g2,b2));}
+      if(!mode){xyzc1c2(x,y,z,colorList,new Color(r1,g1,b1),new Color(r2,g2,b2));}
       else{generateDepthColorList(colorList, r1,  g1,  b1,  r2,  g2,  b2);}
    }
    public static void xyzc1c2(float[] x, float[] y, float[] z,ArrayList<Color> colorList, Color c1, Color c2){
