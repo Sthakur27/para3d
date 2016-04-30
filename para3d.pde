@@ -143,6 +143,11 @@ void drawU(int i){
   }
 }
 void calculate(){
+  rx=0; rz=0;  timer2=0; ztranslate=0; xtranslate=0; ytranslate=0;
+  xscale=dheight/450;
+  yscale=dheight/450;
+  zscale=dheight/450;
+  rchoose=1;
   xvals.clear(); yvals.clear(); zvals.clear();
   parse.parainterp(xexp,yexp,zexp,parse.interp(ustartval),parse.interp(uendval),parse.interp(vstartval),parse.interp(vendval),numofintervals,validpoints);
   for (int i=0;i<parse.xreturnlist.size();i++){
@@ -381,6 +386,7 @@ void keyPressed(){
       if(colored<5){colored++;}else{colored=0;}
       applycolor();
    }
+   if(key==' '){clicktype=false; if(!paused){paused=true;}else{   paused=false;}}
 }
 void mouseClicked(){
   clicktype=true;

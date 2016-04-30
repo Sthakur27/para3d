@@ -48,7 +48,7 @@ public class examples{
     }
     else if(index==8){
      //klein bottle
-         String[] temp={"0","2*p","-p","p","20*(1-cosu)-20",
+         String[] temp={"0","2*p","-p","p","20*(1-cosu)",
        "8*sinu*(1-cosu)+3*sinv*(((1/8)*(u*(5.5/(2*p)))*(u*(5.5/(2*p))-5.5)*(u*(5.5/(2*p))-2))+2)","cosv*(((1/8)*(u*(5.5/(2*p)))*(u*(5.5/(2*p))-5.5)*(u*(5.5/(2*p))-2))+2)"};
        return(temp);
     }
