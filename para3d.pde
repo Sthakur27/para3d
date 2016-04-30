@@ -10,8 +10,8 @@ boolean line=true;
 boolean clicktype=false;
 int exampleNumber=11;
 int rchoose=1;
-int timer=1;
-int timer2=1;
+float timer=0;
+int autorotatetimer=1;
 boolean depthcolor=true;
 float xscale=1; float yscale=1; float zscale=1;
 int typing=0;  //typing changes meaning based on number   0:not typing  1: typing x exp 2: typing y exp 3: typing z exp  4: typing u start 5: typing u end   6: z start 7: zend
@@ -25,16 +25,16 @@ boolean paused=false;
 boolean autorotatingForward=true;
 boolean displayon=true;
 int colored=1; //keep clicking 'c' to cycle thru color modes.
-int backgroundcolor=255;
+int backgroundcolor=0;
 
 //x  y z expressions and parameters u and v  (Copy Paste from examples to here)
 String ustartval="-p";
 String uendval="p";
-String vstartval="-37.4";
-String vendval="37.4";
-String zexp="v";
-String yexp="logv";
+String vstartval="-p";
+String vendval="p";
 String xexp="0";
+String yexp="v";
+String zexp="u";
 
 
 String tempexp="";
@@ -42,7 +42,7 @@ void setup(){
       size(500, 450,P3D);
       dheight=height;
       surface.setResizable(true);
-      calculate();
+      calculate();      
 }
 
 
@@ -86,11 +86,11 @@ void draw(){
     
     //translate to origin and autorotate
     translate(width/2+xtranslate,height/2+ytranslate,ztranslate);
-    rotateY(timer2*PI/180);
+    rotateY(autorotatetimer*PI/180);
     rotateY(ry);
     if(!paused){ if(autorotatingForward){
-       timer2++;}else{timer2-=1;}}
-    if(timer2>360||timer2<-360){timer2=0;}
+       autorotatetimer++;}else{autorotatetimer-=1;}}
+    if(autorotatetimer>360||autorotatetimer<-360){autorotatetimer=0;}
     rotate();
     stroke(255-backgroundcolor);        
     
@@ -114,19 +114,18 @@ void draw(){
     stroke(#aa03eb);
     
     //draw function
-    //<xvals.size()-1
-    for (int i=0;i<xvals.size()-2;i++){
-      //i!=80  i!=161
-        if((i+1)%(numofintervals+1)!=0){
-        drawV(i);
-      }
 
-        if(i<xvals.size()-(numofintervals+1)){
-          drawU(i);     
-      }  
+    for (int i=0;i<timer+1;i++){
+        for(int j=0;j<timer;j++){
+            drawV((numofintervals+1)*i+j);
+        }
     }
-    drawV(xvals.size()-2);
-    if(timer<360){timer+=3;}
+    for(int k=0;k<timer;k++){
+       for(int l=0;l<timer+1;l++){
+         drawU((numofintervals+1)*k+l);
+       }
+    }
+    if(timer<numofintervals){timer+=0.25;}
     dheight=height;
 }
 void drawV(int i){
@@ -143,11 +142,11 @@ void drawU(int i){
   }
 }
 void calculate(){
-  rx=0; rz=0;  timer2=0; ztranslate=0; xtranslate=0; ytranslate=0;
+  rx=0; rz=0;  autorotatetimer=0; ztranslate=0; xtranslate=0; ytranslate=0; timer=0;
   xscale=dheight/450;
   yscale=dheight/450;
   zscale=dheight/450;
-  rchoose=1;
+  rchoose=2;
   xvals.clear(); yvals.clear(); zvals.clear();
   parse.parainterp(xexp,yexp,zexp,parse.interp(ustartval),parse.interp(uendval),parse.interp(vstartval),parse.interp(vendval),numofintervals,validpoints);
   for (int i=0;i<parse.xreturnlist.size();i++){
@@ -291,7 +290,7 @@ void keyPressed(){
    }
 
    if(key=='r'||key=='R'){
-      rx=0; rz=0;  timer2=0; ztranslate=0; xtranslate=0; ytranslate=0;
+      rx=0; rz=0;  autorotatetimer=0; ztranslate=0; xtranslate=0; ytranslate=0; timer=0;
    }
    if(key=='x'||key=='X'){
       rchoose=4;
@@ -334,15 +333,15 @@ void keyPressed(){
            else if(typing==2){
            zexp=""; typing++;}
            else if(typing==3){ 
-              typing=0; rx=0; rz=0; timer2=0;  calculate();}
+              typing=0; rx=0; rz=0; autorotatetimer=0;  calculate();}
            else if(typing==4){ 
               typing=5; uendval="";}
            else if(typing==5){ 
-              typing=0; rx=0; rz=0; timer2=0;  calculate();}
+              typing=0; rx=0; rz=0; autorotatetimer=0;  calculate();}
            else if(typing==6){ 
               typing=7; vendval="";}
            else if(typing==7){ 
-              typing=0; rx=0; rz=0; timer2=0;  calculate();}
+              typing=0; rx=0; rz=0; autorotatetimer=0;  calculate();}
        }
    }
    if((key=='g'||key=='G') && typing==0){calculate();}
