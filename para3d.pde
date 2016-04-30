@@ -8,7 +8,7 @@ ArrayList<Color>colorList=new ArrayList();
 ArrayList<Boolean>validpoints=new ArrayList();
 boolean line=true;
 boolean clicktype=false;
-int exampleNumber=11;
+int exampleNumber=-1;
 int rchoose=1;
 float timer=0;
 int autorotatetimer=1;
@@ -125,7 +125,7 @@ void draw(){
          drawU((numofintervals+1)*k+l);
        }
     }
-    if(timer<numofintervals){timer+=0.25;}
+    if(timer<numofintervals && !paused){timer+=0.25;}
     dheight=height;
 }
 void drawV(int i){
@@ -258,7 +258,7 @@ void keyPressed(){
    }
    if((key=='h'||key=='H')&& typing==0){   if(displayon){displayon=false;} else{displayon=true;}   }
    if((key=='w'||key=='W')&& typing==0){  
-       if(exampleNumber<1){exampleNumber=19;} else{exampleNumber--;}
+       if(exampleNumber<1){exampleNumber=20;} else{exampleNumber--;}
        String[] temp=examples.getExample(exampleNumber); 
        ustartval=temp[0];
        uendval=temp[1];
@@ -270,7 +270,7 @@ void keyPressed(){
        calculate();  
    }
    if((key=='e'||key=='E')&& typing==0){  
-       if(exampleNumber>18){exampleNumber=0;} else{exampleNumber++;}
+       if(exampleNumber>19){exampleNumber=0;} else{exampleNumber++;}
        String[] temp=examples.getExample(exampleNumber); 
        ustartval=temp[0];
        uendval=temp[1];
