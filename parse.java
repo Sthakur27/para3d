@@ -109,7 +109,7 @@ public class parse{
                //System.out.println("ok");
                pobs.add(new pObj(2,"*"));pobs.add(new pObj(1,"10")); pobs.add(new pObj(2,"^"));
             }
-            else{pobs.add(new pObj(0,exp.substring(i,i+1)));}
+            else{pobs.add(new pObj(0,"0.0"));}
         }
     }
     //check if parenthesis exists
