@@ -32,9 +32,9 @@ String ustartval="-p";
 String uendval="p";
 String vstartval="-p";
 String vendval="p";
-String xexp="0";
+String xexp="u";
 String yexp="v";
-String zexp="u";
+String zexp="u*v";
 
 
 String tempexp="";
@@ -81,6 +81,7 @@ void draw(){
         text(ustartval+"≤u≤"+uendval,width-10,20,0); fill(255-backgroundcolor);
         if(typing==6||typing==7){fill(#f42121);}
         text(vstartval+"≤v≤"+vendval,width-10,40,0); fill(255-backgroundcolor);
+        text(numofintervals+" intervals",width-10,60,0);
         textAlign(LEFT);
     }
     
@@ -252,6 +253,14 @@ void rotate(){
 
 
 void keyPressed(){
+   if(key==']' && typing==0){
+      numofintervals+=5;
+      calculate();
+   }
+   if(key=='[' && typing==0){
+      if(numofintervals>5){numofintervals-=5;
+      calculate();}
+   }
    if(key=='f'||key=='F'){
      rchoose++;
      if(rchoose>2){rchoose=0;}
@@ -375,7 +384,7 @@ void keyPressed(){
       if(typing==7 && vendval.length()>0){vendval=vendval.substring(0,vendval.length()-1);
       }
    }
-    if((key=='u'||key=='U') && typing==0){
+   if((key=='u'||key=='U') && typing==0){
       typing=4; ustartval="";
    }
    if((key=='v'||key=='V') && typing==0){
