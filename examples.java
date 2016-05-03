@@ -1,3 +1,7 @@
+/*some math sources: 
+http://aleph0.clarku.edu/~djoyce/ma131/gallery.pdf
+http://paulbourke.net/geometry/klein/
+http://arxiv.org/pdf/0909.5354.pdf*/
 public class examples{
   public static String[] getExample(int index){ 
     switch(index){

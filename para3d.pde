@@ -1,14 +1,14 @@
-//http://aleph0.clarku.edu/~djoyce/ma131/gallery.pdf
-//http://paulbourke.net/geometry/klein/
-//http://arxiv.org/pdf/0909.5354.pdf
+//three floatlists used to store x,y,z coordinates of points
 FloatList xvals=new FloatList(); 
 FloatList yvals=new FloatList();
 FloatList zvals=new FloatList();
+//list containing color for each point
 ArrayList<Color>colorList=new ArrayList();
+//says whether each point exists or not
 ArrayList<Boolean>validpoints=new ArrayList();
-boolean line=true;
 boolean clicktype=false;
 int exampleNumber=-1;
+//mouse scroll controller
 int rchoose=1;
 float timer=0;
 int autorotatetimer=1;
@@ -17,7 +17,7 @@ float xscale=1; float yscale=1; float zscale=1;
 int typing=0;  //typing changes meaning based on number   0:not typing  1: typing x exp 2: typing y exp 3: typing z exp  4: typing u start 5: typing u end   6: z start 7: zend
 float xmaxval=0; float ymaxval=0; float zmaxval=0;
 float ry=0; float rx=0;float rz=0;
-float xtranslate=0; float ytranslate=0; float ztranslate=0;
+float xtranslate=0; float ytranslate=0; float ztranslate=0;  
 int numofintervals=80;
 float zmax; float zmin;
 float dheight;
@@ -47,6 +47,7 @@ void setup(){
 
 
 void draw(){
+    //display screen information
     background(backgroundcolor);
     if(displayon){
         fill(255-backgroundcolor);
@@ -126,9 +127,12 @@ void draw(){
          drawU((numofintervals+1)*k+l);
        }
     }
-    if(timer<numofintervals && !paused){timer+=0.25;}
+    if(timer<numofintervals && !paused){timer+=0.5;}
     dheight=height;
 }
+
+//@param int i: index of point in xvals/yvals/zvals
+//draws a line from point x,y,z(u,v) to x,y,z(u,v+1)
 void drawV(int i){
   if(validpoints.get(i)&&validpoints.get(i+1)){
   if(colored!=0){stroke(colorList.get(i).r,colorList.get(i).g,colorList.get(i).b);}
@@ -136,12 +140,16 @@ void drawV(int i){
   }
 }
 
+//@param int i: index of point in xvals/yvals/zvals
+//draws a line from point x,y,z(u,v) to x,y,z(u+1,v)
 void drawU(int i){
   if(validpoints.get(i)&&validpoints.get(i+1+numofintervals)){
   if(colored!=0){stroke(colorList.get(i).r,colorList.get(i).g,colorList.get(i).b);}
   line(xscale*xvals.get(i),zscale*zvals.get(i),yscale*yvals.get(i),xscale*xvals.get(i+numofintervals+1),zscale*zvals.get(i+numofintervals+1),yscale*yvals.get(i+numofintervals+1));
   }
 }
+
+//generates lists of points based on string expressions, autoscales the function to the window, applies color
 void calculate(){
   rx=0; rz=0;  autorotatetimer=0; ztranslate=0; xtranslate=0; ytranslate=0; timer=0;
   xscale=dheight/450;
@@ -155,11 +163,14 @@ void calculate(){
        yvals.append(10*parse.yreturnlist.get(i).floatValue());
        zvals.append(-10*parse.zreturnlist.get(i).floatValue());
   }
+  //uses unscaled points to calculate distance from origin for later depth color labeling
   Color.generateDepthValues(xvals.array(),yvals.array(),zvals.array());
   rescale(xvals, xmaxval); rescale(yvals, ymaxval); rescale(zvals,zmaxval);
   applycolor();
   //findAsymptotes(xvals); findAsymptotes(yvals); findAsymptotes(zvals);
 }
+
+//applies different color modes based on 'colored' variable
 void applycolor(){
    Color cyan=new Color(0.0,255.0,197.0); Color purple=new Color(238.0,3.0,240.0);
    if(colored==1){Color.axiscolorlist(xvals.array(),yvals.array(),zvals.array(),colorList);}
@@ -193,6 +204,10 @@ void applycolor(){
      }
   }
 }*/
+
+/*@param coordinate point list(ex xvals) and maximum absolute value of list
+scales list's points to window
+*/
 void rescale(FloatList list, float maxval){
   maxval=0;
   int sum=0;
@@ -246,6 +261,7 @@ void rescale(FloatList list, float maxval){
   maxval*=autoscale;
 }
 
+//rotates the coordinate axis
 void rotate(){
   rotateX(rx);
   rotateZ(rz);
@@ -253,6 +269,7 @@ void rotate(){
 
 
 void keyPressed(){
+   // adjust num of intervals with '[' and ']'
    if(key==']' && typing==0){
       numofintervals+=5;
       calculate();
@@ -261,11 +278,14 @@ void keyPressed(){
       if(numofintervals>5){numofintervals-=5;
       calculate();}
    }
+   //use 'f' to change mousewheel mode
    if(key=='f'||key=='F'){
      rchoose++;
      if(rchoose>2){rchoose=0;}
    }
+   // 'h' toggles information and axis
    if((key=='h'||key=='H')&& typing==0){   if(displayon){displayon=false;} else{displayon=true;}   }
+   //'w' and 'e' to load different preset examples.
    if((key=='w'||key=='W')&& typing==0){  
        if(exampleNumber<1){exampleNumber=20;} else{exampleNumber--;}
        String[] temp=examples.getExample(exampleNumber); 
@@ -290,17 +310,21 @@ void keyPressed(){
        zexp=temp[6];
        calculate();  
    }
+   // 'b' to toggle autorotation back and forth
    if((key=='b'||key=='B')){   if(autorotatingForward){autorotatingForward=false;} else{autorotatingForward=true;}   }
+   // 'i' to toggle background black and white
    if((key=='i'||key=='I') && typing==0){if(backgroundcolor==0){backgroundcolor=255;} else{backgroundcolor=0;}}
+   // 's' autoscales to window
    if(key=='s'||key=='S'){
        xscale=dheight/450;
        yscale=dheight/450;
        zscale=dheight/450;
    }
-
+   // reset rotation and translation
    if(key=='r'||key=='R'){
       rx=0; rz=0;  autorotatetimer=0; ztranslate=0; xtranslate=0; ytranslate=0; timer=0;
    }
+   // mousewhell stretches x axis/values
    if(key=='x'||key=='X'){
       rchoose=4;
    }
