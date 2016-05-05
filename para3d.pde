@@ -128,7 +128,12 @@ void draw(){
        }
     }
     if(timer<numofintervals && !paused){timer+=0.5;}
-    dheight=height;
+    if(height!=dheight){
+       dheight=height;
+       xscale=dheight/450;
+       yscale=dheight/450;
+       zscale=dheight/450;
+    }
 }
 
 //@param int i: index of point in xvals/yvals/zvals

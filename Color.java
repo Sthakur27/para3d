@@ -15,12 +15,14 @@ public class Color{
   public Color(int dr, int dg, int db){
     r=(float)dr; g=(float)dg; b=(float)db;
   }
+  //combines this color and another color and returns the result
   public Color addColor(Color c){
       r=Math.min((int)(this.r+c.r),256); 
       g=Math.min((int)(this.g+c.g),256); 
       b=Math.min((int)(this.b+c.b),256);
       return(this);
   }
+  //creates color variance where x values change red values, y:green, z:blue
   public static void axiscolorlist(float[] xvals, float[] yvals, float[] zvals,ArrayList<Color> colorList){
       colorList.clear();  
       float[] xrange=findrange(xvals); float[] yrange=findrange(yvals); float[] zrange=findrange(zvals);
@@ -28,9 +30,11 @@ public class Color{
            colorList.add(new Color(255*(xvals[i]-xrange[0])/(xrange[1]-xrange[0]),255*(yvals[i]-yrange[0])/(yrange[1]-yrange[0]),255*(zvals[i]-zrange[0])/(zrange[1]-zrange[0])));
       }
     }
+ //get distance of point from origin with i being the index of the point
  public static float getlength(int i,float[] xvals, float[] yvals, float[] zvals){
        return((float)Math.pow(xvals[i]*xvals[i]+yvals[i]*yvals[i]+zvals[i]*zvals[i],0.5));
     }
+ //stores the values of the distance from each point to the origin for later depth coloring
  public static void generateDepthValues(float[] xvals, float[] yvals, float[] zvals){
       depthvalues.clear();
       float min=getlength(1,xvals,yvals,zvals);
@@ -47,6 +51,7 @@ public class Color{
          depthvalues.add((getlength(i,xvals,yvals,zvals)-min)*(10/(max-min)));
       }
  }
+ //uses the depth values of points to color each point with the closest to the origin being Color(r1,g1,b1) and the farthest being Color(r2,g2,b2)
  public static void generateDepthColorList(ArrayList<Color> list,float r1, float g1, float b1, float r2, float g2, float b2){
       depthcolors.clear();
       for (int j=0;j<depthvalues.size();j++){
