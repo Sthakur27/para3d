@@ -6,8 +6,11 @@ public class pObj{
     int opernum=0;  //1 +  2 -   3 * 4 /  5 ^  6 sin 7 cos 8 tan 9 log 10 sinh 11 cosh
     String oper="";
     int mode=0;  //0:numbers  1: operators(+,-)  2: paranthesis   3: scientific operator(sin cos)
+    
+    //constructor creates pObj of appropriate type and data fields
     public pObj(int i,String str){
       mode=i;
+      //numbers
       if(mode==0){
          if(str.equals("e")){num=Math.E;}
          else if(str.equals("p")){num=Math.PI;}
@@ -16,6 +19,8 @@ public class pObj{
          num=Double.parseDouble(str);}
          priority=0;
       }
+      
+      //basic operaters
       if(mode==1){
           oper=str;
           if(str.equals("+")){
@@ -34,9 +39,14 @@ public class pObj{
             priority=3;  opernum=5;
           }
       }
+      
+      //parenthesis
       else if(mode==2){
           oper=str;
       }
+      
+      
+      //advanced operaters
       else if(mode==3){
           oper=str;
           priority=4;
@@ -47,8 +57,11 @@ public class pObj{
           else if(oper.equals("sinh")){opernum=10;}
           else if(oper.equals("cosh")){opernum=11;}
       }
-      //System.out.println(mode+"  "+ num + "  " + oper);
+      
     }
+    
+    
+    //prints appropriate contents of pObj based on type.  For debugging use.
     public String toString(){
       if(mode==0){
        return(Double.toString(num));}
