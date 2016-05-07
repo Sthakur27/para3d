@@ -25,7 +25,7 @@ boolean paused=false;
 boolean autorotatingForward=true;
 boolean displayon=true;
 int colored=1; //keep clicking 'c' to cycle thru color modes.
-int backgroundcolor=0;
+int backgroundcolor=0;  //alternates between black and white  0-255
 
 //x  y z expressions and parameters u and v  (Copy Paste from examples to here)
 String ustartval="-p";

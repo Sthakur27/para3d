@@ -2,6 +2,9 @@
 http://aleph0.clarku.edu/~djoyce/ma131/gallery.pdf
 http://paulbourke.net/geometry/klein/
 http://arxiv.org/pdf/0909.5354.pdf*/
+//pillow   sinucosv  cosusinv  sinv    
+//weird    sinucosu  sinucosv cosucosv
+
 public class examples{
   
   //returns a string list with specifications to create example function in para3d
