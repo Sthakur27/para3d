@@ -4,6 +4,14 @@ http://paulbourke.net/geometry/klein/
 http://arxiv.org/pdf/0909.5354.pdf*/
 //pillow   sinucosv  cosusinv  sinv    
 //weird    sinucosu  sinucosv cosucosv
+/*donut String ustartval="-p";
+String uendval="p";
+String vstartval="-p";
+String vendval="p";
+String xexp="sinu*cosv";
+String yexp="cosu*cosv";
+String zexp="sin(2*v)";
+*/
 
 public class examples{
   
@@ -20,7 +28,7 @@ public class examples{
          return(cone);
          
     case 2:
-         String[] trefoil={"-p","p","-p","p","(sin(u)+2*sin(2*u))","(cos(u)-2*cos(2*u))+0.5*cosu*cosv","(-1*sin(3*u))"};
+         String[] trefoil={"-p","p","-p","p","(sin(u)+2*sin(2*u))","(cos(u)-2*cos(2*u))+0.25*cosu*cosv","(-2*sin(3*u))"};
          return(trefoil);
          
     case 3:
@@ -40,7 +48,7 @@ public class examples{
        
     case 6:
          String[] torus={"-2*p","2*p","-2*p","2*p","(3+cosv)*cosu",
-       "(3+cosv)*sinu","5*sinv"};
+       "(3+cosv)*sinu","sinv"};
        return(torus);
        
     case 7:
@@ -50,11 +58,11 @@ public class examples{
        
     case 8:
          String[] kleinbottle={"0","2*p","-p","p","20*(1-cosu)",
-       "8*sinu*(1-cosu)+3*sinv*(((1/8)*(u*(5.5/(2*p)))*(u*(5.5/(2*p))-5.5)*(u*(5.5/(2*p))-2))+2)","cosv*(((1/8)*(u*(5.5/(2*p)))*(u*(5.5/(2*p))-5.5)*(u*(5.5/(2*p))-2))+2)"};
+       "8*sinu*(1-cosu)+3*sinv*(((1/8)*(u*(5.5/(2*p)))*(u*(5.5/(2*p))-5.5)*(u*(5.5/(2*p))-2))+2)","2.5*cosv*(((1/8)*(u*(5.5/(2*p)))*(u*(5.5/(2*p))-5.5)*(u*(5.5/(2*p))-2))+2)"};
        return(kleinbottle);
        
     case 9:
-         String[] monkey={"-p","p","-p","p","u",
+         String[] monkey={"-0.7","0.7","-0.7","0.7","u",
        "v","u^3-3*u*v^2"};
        return(monkey);
        
@@ -65,12 +73,12 @@ public class examples{
        
     case 11:
          String[] enneper={"-p","p","-p","p","u*((1-(u^2)/3)+v^2)",
-       "-v*((1-(v^2)/3)+u^2)","(u^2-v^2)/3"};
+       "-v*((1-(v^2)/3)+u^2)","(u^2-v^2)*2"};
        return(enneper);
        
     case 12:
          String[] kuen={"-p","p","0","p","(2*(cosu+u*sinu)*sinv)/(1+u^2*(sinv)^2)",
-       "(2*(sinu-u*cosu)*sinv)/(1+u^2*(sinv)^2)","log(tan(0.5*v))+(2*cosv/(1+u^2*(sinv)^2))"};
+       "1.5*(2*(sinu-u*cosu)*sinv)/(1+u^2*(sinv)^2)","log(tan(0.5*v))+(2*cosv/(1+u^2*(sinv)^2))"};
        return(kuen);
        
     case 13:
@@ -85,19 +93,19 @@ public class examples{
        
     case 15:
          String[] Conoid={"-p","p","-p","p","v*cosu",
-     "v*sinu","2*sin(1*u)"};
+     "v*sinu","3*sin(1*u)"};
        return(Conoid);
        
     case 16:
-         String[] SphericalHelicoid ={"-2*p","2*p","-2*p","2*p","u*cosv",
-     "u*sinv","u^2+6*v-20"};
+         String[] SphericalHelicoid ={"-2*p","2*p","-2*p","2*p","4*u*cosv",
+     "4*u*sinv","u^2+6*v-20"};
        return(SphericalHelicoid);
        
     case 17:
      //Boy's Surface
          String[] boys={"-p/2","p/2","0","p","(1.41*cosv^2*cos(2*u)+cosu*sin(2*v))/(2-1.41*sin(3*u)*sin(2*v))",
      "(1.41*cosv^2*sin(2*u)-sinu*sin(2*v))/(2-1.41*sin(3*u)*sin(2*v))",
-     "(3*cosv^2)/(2-1.41*sin(3*u)*sin(2*v))"};
+     "(2.5*cosv^2)/(2-1.41*sin(3*u)*sin(2*v))"};
        return(boys);
        
     case 18:
@@ -108,12 +116,11 @@ public class examples{
        
     case 19: 
          String[] flower={"0","p","-p","p","cos(4*u)*cos(v)^6*cos(u)*cosv",
-         "cos(4*u)*cos(v)^6*sin(u)*cosv",
-         "cos(4*u)*cos(v)^6*sin(v)"};
+         "cos(4*u)*cos(v)^6*sin(v)","cos(4*u)*cos(v)^6*sin(u)*cosv"};
        return(flower);
        
     case 20:
-        String[] snailshell={"0","6*p","0","2*p","(1-e^(u/(6*p)))*cosu*cos(v/2)^2","(-1+e^(u/(6*p)))*sinu*cos(v/2)^2","4.5-e^(u/(3*p))-sinv+e^(u/(6*p))*sinv"};
+        String[] snailshell={"0","6*p","0","2*p","2*(1-e^(u/(6*p)))*cosu*cos(v/2)^2","2*(-1+e^(u/(6*p)))*sinu*cos(v/2)^2","4.5-e^(u/(3*p))-sinv+e^(u/(6*p))*sinv"};
         return snailshell;
         
     //default should never be reached
