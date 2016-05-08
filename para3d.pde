@@ -7,7 +7,7 @@ ArrayList<Color>colorList=new ArrayList();
 //says whether each point exists or not
 ArrayList<Boolean>validpoints=new ArrayList();
 boolean clicktype=false;
-int exampleNumber=-1;
+int exampleNumber=17;
 //mouse scroll controller
 int rchoose=1;
 float timer=0;
@@ -15,11 +15,9 @@ int autorotatetimer=1;
 boolean depthcolor=true;
 float xscale=1; float yscale=1; float zscale=1;
 int typing=0;  //typing changes meaning based on number   0:not typing  1: typing x exp 2: typing y exp 3: typing z exp  4: typing u start 5: typing u end   6: z start 7: zend
-float xmaxval=0; float ymaxval=0; float zmaxval=0;
 float ry=0; float rx=0;float rz=0;
 float xtranslate=0; float ytranslate=0; float ztranslate=0;  
 int numofintervals=80;
-float zmax; float zmin;
 float dheight;
 boolean paused=false;
 boolean autorotatingForward=true;
@@ -28,10 +26,10 @@ int colored=1; //keep clicking 'c' to cycle thru color modes.
 int backgroundcolor=0;  //alternates between black and white  0-255
 
 //x  y z expressions and parameters u and v  (Copy Paste from examples to here)
-String ustartval="-p";
-String uendval="p";
-String vstartval="-p";
-String vendval="p";
+String ustartval="-1";
+String uendval="1";
+String vstartval="-1";
+String vendval="1";
 String xexp="u";
 String yexp="v";
 String zexp="u*v";
@@ -170,7 +168,7 @@ void calculate(){
   }
   //uses unscaled points to calculate distance from origin for later depth color labeling
   Color.generateDepthValues(xvals.array(),yvals.array(),zvals.array());
-  rescale(xvals, xmaxval); rescale(yvals, ymaxval); rescale(zvals,zmaxval);
+  rescale(new FloatList[]{xvals,yvals,zvals});
   applycolor();
   //findAsymptotes(xvals); findAsymptotes(yvals); findAsymptotes(zvals);
 }
@@ -213,55 +211,59 @@ void applycolor(){
 /*@param coordinate point list(ex xvals) and maximum absolute value of list
 scales list's points to window
 */
-void rescale(FloatList list, float maxval){
-  maxval=0;
+void rescale(FloatList[] a){
+  float maxval=0;
   int sum=0;
   float autoscale=1;
   boolean containsinfinity=false;
-  for (int j=0;j<list.size();j++){
-    if((100/abs(list.get(j)))==0){
-        containsinfinity=false;
-    }    
+  for(FloatList list:a){
+      for (int j=0;j<list.size();j++){
+        if((100/abs(list.get(j)))==0){
+            containsinfinity=false;
+        }    
+      }
+      //find abs biggest values for rescaling
+      for (int i=0;i<list.size();i++){
+            if (abs(list.get(i))>maxval){
+                  maxval=abs(list.get(i));
+                  if(100/maxval==0){
+                      if(i-1>=0){
+                      maxval=abs(list.get(i-1));
+                      break;
+                      }
+                      else{
+                        maxval=abs(list.get(i+1));
+                        break;
+                      }
+                  }
+            }
+       }
   }
-  //find abs biggest values for rescaling
-  for (int i=0;i<list.size();i++){
-        if (abs(list.get(i))>maxval){
-              maxval=abs(list.get(i));
-              if(100/maxval==0){
-                  if(i-1>=0){
-                  maxval=abs(list.get(i-1));
-                  break;
-                  }
-                  else{
-                    maxval=abs(list.get(i+1));
-                    break;
-                  }
-              }
+  for(FloatList list:a){
+      if(containsinfinity||maxval>pow(10,15)){   //if values contains infinity scale to the average value
+        println(maxval);
+        for (int i=0;i<list.size();i++){
+            sum+=list.get(i);          
         }
-  }
-  if(containsinfinity||maxval>pow(10,15)){   //if values contains infinity scale to the average value
-    println(maxval);
-    for (int i=0;i<list.size();i++){
-        sum+=list.get(i);          
-    }
-    sum/=list.size()-1;
-    if(sum==0){autoscale=1;}
-    else{
-      autoscale=130/sum;}
-    if (autoscale==0){autoscale=5; }
-    for (int i=0;i<list.size();i++){
-       list.mult(i,autoscale);
-    }
-  }
-  else{
-    //println(maxval);
-    if(maxval==0){autoscale=1;}
-    else{
-      autoscale=130/maxval;}
-    if (autoscale==0){autoscale=5; }
-    for (int i=0;i<list.size();i++){
-       list.mult(i,autoscale);
-    }    
+        sum/=list.size()-1;
+        if(sum==0){autoscale=1;}
+        else{
+          autoscale=130/sum;}
+        if (autoscale==0){autoscale=5; }
+        for (int i=0;i<list.size();i++){
+           list.mult(i,autoscale);
+        }
+      }
+      else{
+        //println(maxval);
+        if(maxval==0){autoscale=1;}
+        else{
+          autoscale=130/maxval;}
+        if (autoscale==0){autoscale=5; }
+        for (int i=0;i<list.size();i++){
+           list.mult(i,autoscale);
+        }    
+      }
   }
   maxval*=autoscale;
 }
