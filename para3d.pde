@@ -325,11 +325,9 @@ void keyPressed(){
       if(depthcolor){depthcolor=false;}else{depthcolor=true;} applycolor();
    }
    if((key=='p'||key=='P')&&typing==0){
-      println("String ustartval=\""+ustartval+"\";");
-      println("String uendval=\""+uendval+"\";");
-      println("String vstartval=\""+vstartval+"\";");
-      println("String vendval=\""+vendval+"\";");
-      println("String xexp=\""+xexp+"\";"); println("String yexp=\""+yexp+"\";"); println("String zexp=\""+zexp+"\";");println("");
+      println("case #:");
+      println("String[] name={\""+ustartval+"\",\""+uendval+"\",\""+vstartval+"\",\""+vendval+"\",\""+xexp+"\",\""+yexp+"\",\""+zexp+"\"};");
+      println("return name;");
    }
    if(keyCode==LEFT){
       xtranslate-=20;//ry-=5*PI/180;

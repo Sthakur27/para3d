@@ -71,6 +71,7 @@ public class parse{
       if(parencount!=0){
            valid=false; System.out.println(str+" has not enough parenthesis");  invalid=true;
       }
+      
       if(valid && !str.equals("")){
          //for every u val        
         for(double u=ustart;u<=(uend+(ustep/2));u+=ustep){

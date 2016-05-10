@@ -28,7 +28,8 @@ public class examples{
          return(cone);
          
     case 2:
-         String[] trefoil={"-p","p","-p","p","(sin(u)+2*sin(2*u))","(cos(u)-2*cos(2*u))+0.25*cosu*cosv","(-2*sin(3*u))"};
+         String[] trefoil={"-p","p","-p","p","(sin(u)+2*sin(2*u))","(cos(u)-2*cos(2*u))","(-2*sin(3*u))"};
+         //y +0.25*cosu*cosv
          return(trefoil);
          
     case 3:
@@ -47,7 +48,7 @@ public class examples{
        return(mobius);
        
     case 6:
-         String[] torus={"-2*p","2*p","-2*p","2*p","(3+cosv)*cosu",
+         String[] torus={"-p","p","-p","p","(3+cosv)*cosu",
        "(3+cosv)*sinu","sinv"};
        return(torus);
        
