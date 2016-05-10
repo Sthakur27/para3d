@@ -1,8 +1,9 @@
 /*some math sources: 
 http://aleph0.clarku.edu/~djoyce/ma131/gallery.pdf
 http://paulbourke.net/geometry/klein/
-http://arxiv.org/pdf/0909.5354.pdf*/
-//pillow   sinucosv  cosusinv  sinv    
+http://arxiv.org/pdf/0909.5354.pdf
+https://elepa.files.wordpress.com/2013/11/fifty-famous-curves.pdf*/
+//narrow pillow   sinucosv  cosusinv  sinv    
 //weird    sinucosu  sinucosv cosucosv
 /*donut String ustartval="-p";
 String uendval="p";
@@ -17,9 +18,8 @@ public class examples{
   
   //returns a string list with specifications to create example function in para3d
   public static String[] getExample(int index){ 
-    switch(index){
-      
-    case(0):
+    switch(index){  
+    case 0:
          String[] helicoid={"-p","p","-p","p","v*sinu","v*cosu","u"};
          return(helicoid);
          
@@ -92,9 +92,9 @@ public class examples{
        return(steiner);
        
     case 15:
-         String[] Conoid={"-p","p","-p","p","v*cosu",
+         String[] RightConoid={"-p","p","-p","p","v*cosu",
      "v*sinu","3*sin(1*u)"};
-       return(Conoid);
+       return(RightConoid);
        
     case 16:
          String[] SphericalHelicoid ={"-2*p","2*p","-2*p","2*p","4*u*cosv",
@@ -123,6 +123,15 @@ public class examples{
         String[] snailshell={"0","6*p","0","2*p","2*(1-e^(u/(6*p)))*cosu*cos(v/2)^2","2*(-1+e^(u/(6*p)))*sinu*cos(v/2)^2","4.5-e^(u/(3*p))-sinv+e^(u/(6*p))*sinv"};
         return snailshell;
         
+    case 21:
+        //replacing sinv^3 with sinv  for z  looks pretty interesting too
+        String[] astroid= {"-p","p","-p","p","cosu^3*cosv^3","sinu^3*cosv^3","sinv^3"};
+        return astroid;
+    
+    case 22:
+        String[] pillow= {"-p","p","-p","p","sinu","cosu*cosv","sinv"};
+        return pillow;
+    
     //default should never be reached
     default:
     return(new String[]{});
@@ -147,14 +156,14 @@ String xexp="(sin(u)+2*sin(2*u))+0.5*sinu*cosv";
 String yexp="(cos(u)-2*cos(2*u))+0.5*cosu*cosv";
 String zexp="(-1*sin(3*u))+0.5*sinv";
 
-Symmetrical horn cyclide
-String ustartval="-p";
-String uendval="p";
+1sheet hyperboloid
+String ustartval="-1";
+String uendval="1";
 String vstartval="-p";
 String vendval="p";
-String xexp="(0*(5-13*cosu*cosv)+144*cosu)/(13-5*cosu*cosv)";
-String yexp="(12*sinu*(13-0*cosv))/(13-5*cosu*cosv)";
-String zexp="(12*sinv*(5*cosu-0))/(13-5*cosu*cosv)";
+String xexp="(1+u^2)^0.5*cosv";
+String yexp="(1+u^2)^0.5*sinv";
+String zexp="u";
 
 parabolic cyclide
 k={0.5,1,1.5}
@@ -179,14 +188,13 @@ String zexp = "sin(u/4)*sin(v/2)+cos(u/4)*sin(v)/2";
 
 
 
-Cool thingy
-
+Parabola with radius increasing as y increases
 u+0.25*u^2*sinv*cosu
 u^2+0.25*u^2*sinv*sinu
 u^2*cosv
 
 
-trippy
+Harmono
 u: (-2*p, 2*p)    v: (-p, p)
 String xexp="sin(3*u)/(2+cosv)"
 String yexp="(sinu+2*sin(2*u))/(2+cos(v+p*2/3))"
@@ -214,12 +222,4 @@ String xexp="4*sin(5*u)*sinu+sinv";
 String yexp="4*sin(5*u)*cosu";
 String zexp="cosv";
 
-3d flower!
-String ustartval="0";
-String uendval="p";
-String vstartval="-p";
-String vendval="p";
-String xexp="cos(4*u)*cos(v)^6*cos(u)*cosv";
-String yexp="cos(4*u)*cos(v)^6*sin(u)*cosv";
-String zexp="cos(4*u)*cos(v)^6*sin(v)";
 */

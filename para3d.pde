@@ -7,14 +7,15 @@ ArrayList<Color>colorList=new ArrayList();
 //says whether each point exists or not
 ArrayList<Boolean>validpoints=new ArrayList();
 boolean clicktype=false;
-int exampleNumber=17;
+int exampleNumber=-1;
 //mouse scroll controller
 int rchoose=1;
 float timer=0;
 int autorotatetimer=1;
 boolean depthcolor=true;
 float xscale=1; float yscale=1; float zscale=1;
-int typing=0;  //typing changes meaning based on number   0:not typing  1: typing x exp 2: typing y exp 3: typing z exp  4: typing u start 5: typing u end   6: z start 7: zend
+int typing=0;  //typing changes meaning based on number   
+//0:not typing  1: typing x exp 2: typing y exp 3: typing z exp  4: typing u start 5: typing u end   6: z start 7: z end
 float ry=0; float rx=0;float rz=0;
 float xtranslate=0; float ytranslate=0; float ztranslate=0;  
 int numofintervals=80;
@@ -170,7 +171,11 @@ void calculate(){
   Color.generateDepthValues(xvals.array(),yvals.array(),zvals.array());
   rescale(new FloatList[]{xvals,yvals,zvals});
   applycolor();
-  //findAsymptotes(xvals); findAsymptotes(yvals); findAsymptotes(zvals);
+  if (parse.invalid){
+      xexp="Invalid";
+      yexp="Invalid";
+      zexp="Invalid";
+  }
 }
 
 //applies different color modes based on 'colored' variable
@@ -183,30 +188,6 @@ void applycolor(){
    else if(colored==4){Color.showColor(xvals.array(),yvals.array(),zvals.array(),colorList,5,234.0,9.0,0.0,0.0,255.0,depthcolor);}
    else if(colored==5){Color.showColor(xvals.array(),yvals.array(),zvals.array(),colorList,238,3.0,240.0,0.0,255,0.0,depthcolor);}
 }
-/*void findAsymptotes(FloatList list){
-  //find abs biggest values for rescaling
-  float maxval=abs(list.get(0));
-  for (int i=1;i<list.size();i++){
-        if (abs(list.get(i))>maxval){
-              maxval=abs(list.get(i));
-              if(100/maxval==0){
-                  if(i-1>=0){
-                  maxval=abs(list.get(i-1));
-                  break;
-                  }
-                  else{
-                    maxval=abs(list.get(i+1));
-                    break;
-                  }
-              }
-        }
-  }
-  for(int i=0;i<list.size()-(1+numofintervals);i++){
-     if(abs(list.get(i+1)-list.get(i))>maxval/2||abs(list.get(i+numofintervals+1)-list.get(i))>maxval/2){
-        validpoints.set(i,false);
-     }
-  }
-}*/
 
 /*@param coordinate point list(ex xvals) and maximum absolute value of list
 scales list's points to window
@@ -241,7 +222,6 @@ void rescale(FloatList[] a){
   }
   for(FloatList list:a){
       if(containsinfinity||maxval>pow(10,15)){   //if values contains infinity scale to the average value
-        println(maxval);
         for (int i=0;i<list.size();i++){
             sum+=list.get(i);          
         }
@@ -294,7 +274,7 @@ void keyPressed(){
    if((key=='h'||key=='H')&& typing==0){   if(displayon){displayon=false;} else{displayon=true;}   }
    //'w' and 'e' to load different preset examples.
    if((key=='w'||key=='W')&& typing==0){  
-       if(exampleNumber<1){exampleNumber=20;} else{exampleNumber--;}
+       if(exampleNumber<1){exampleNumber=22;} else{exampleNumber--;}
        String[] temp=examples.getExample(exampleNumber); 
        ustartval=temp[0];
        uendval=temp[1];
@@ -306,7 +286,7 @@ void keyPressed(){
        calculate();  
    }
    if((key=='e'||key=='E')&& typing==0){  
-       if(exampleNumber>19){exampleNumber=0;} else{exampleNumber++;}
+       if(exampleNumber>21){exampleNumber=0;} else{exampleNumber++;}
        String[] temp=examples.getExample(exampleNumber); 
        ustartval=temp[0];
        uendval=temp[1];
@@ -385,6 +365,7 @@ void keyPressed(){
        }
    }
    if((key=='g'||key=='G') && typing==0){calculate();}
+   //typing into an input string ex. xexp  or ustart
    if(typing!=0){
       if(keyCode!=SHIFT && keyCode!=ENTER && keyCode!=BACKSPACE && keyCode!=DELETE){
          if(typing!=0){displayon=true;}
@@ -398,6 +379,7 @@ void keyPressed(){
       //print(key);
       }
    }
+   //delete last key when typing into a string
    if((keyCode==DELETE||keyCode==BACKSPACE)){
       if(typing==1 && xexp.length()>0){
       xexp=xexp.substring(0,xexp.length()-1);}
@@ -427,6 +409,7 @@ void keyPressed(){
    }
    if(key==' '){clicktype=false; if(!paused){paused=true;}else{   paused=false;}}
 }
+
 void mouseClicked(){
   clicktype=true;
   if(mouseX>10 && mouseX<200 && mouseY>6 && mouseY<19){typing=1; xexp="";}  //x
@@ -438,6 +421,7 @@ void mouseClicked(){
   else if(width-mouseX<90 && mouseY>19 && mouseY<41){typing=6; vstartval="";} //vstart
   else {clicktype=false; if(!paused){paused=true;}else{   paused=false;}}
 }
+
 void mouseWheel(MouseEvent event) {
   int e = event.getCount();
   if(rchoose==0){
