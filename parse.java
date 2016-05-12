@@ -30,12 +30,21 @@ public class parse{
         for(int i=0;i<(numofsteps+1)*(numofsteps+1);i++){
             validpoints.add(true);
         }
+        String[] strings={str1,str2,str3};
+        for(int j=0;j<strings.length;j++){
+          for(int i=0;i<strings.length;i++){
+              strings[j]=strings[j].replaceAll("x",xstring);
+              strings[j]=strings[j].replaceAll("y",ystring);
+              strings[j]=strings[j].replaceAll("z",zstring);
+          }
+        }
+        //System.out.print(strings[0]+"\n"+strings[1]+"\n"+strings[2]);
         xreturnlist.clear();
         yreturnlist.clear();
         zreturnlist.clear();
-        interpoverrange(xreturnlist,str1,ustart,uend,vstart,vend,(uend-ustart)/numofsteps,(vend-vstart)/numofsteps,validpoints);
-        interpoverrange(yreturnlist,str2,ustart,uend,vstart,vend,(uend-ustart)/numofsteps,(vend-vstart)/numofsteps,validpoints);
-        interpoverrange(zreturnlist,str3,ustart,uend,vstart,vend,(uend-ustart)/numofsteps,(vend-vstart)/numofsteps,validpoints);
+        interpoverrange(xreturnlist,strings[0],ustart,uend,vstart,vend,(uend-ustart)/numofsteps,(vend-vstart)/numofsteps,validpoints);
+        interpoverrange(yreturnlist,strings[1],ustart,uend,vstart,vend,(uend-ustart)/numofsteps,(vend-vstart)/numofsteps,validpoints);
+        interpoverrange(zreturnlist,strings[2],ustart,uend,vstart,vend,(uend-ustart)/numofsteps,(vend-vstart)/numofsteps,validpoints);
         if(invalid){
            for(ArrayList<Double> list:new ArrayList[]{xreturnlist,yreturnlist,zreturnlist}){
                for(int i=0;i<list.size();i++){
@@ -77,10 +86,7 @@ public class parse{
         for(double u=ustart;u<=(uend+(ustep/2));u+=ustep){
             //for every v value on interval
             for (double v=vstart;v<=vend+(vstep/2); v+=vstep){ 
-                 exp=str.replaceAll("x",xstring);
-                 exp=exp.replaceAll("y",ystring);
-                 exp=exp.replaceAll("z",zstring);
-                 exp=exp.replaceAll("u","("+Double.toString(u)+")");
+                 exp=str.replaceAll("u","("+Double.toString(u)+")");
                  exp=exp.replaceAll("v","("+Double.toString(v)+")");
                  //System.out.println(exp);
                  classify();
