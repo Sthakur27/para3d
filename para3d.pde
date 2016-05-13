@@ -33,7 +33,7 @@ String vstartval="-1";
 String vendval="1";
 String xexp="u";
 String yexp="v";
-String zexp="u*v";
+String zexp="uv";
 
 
 String tempexp="";

@@ -7,6 +7,7 @@ public class parse{
     private static String type3="()";
     private static String type4="cossintanlogcoshsinh"; //cos  sin tan log
     private static String all="E0123456789.ep+-*/^cossintanlogcoshsinhuv()xyz";
+    private static String vars="xyzuv";
     private static ArrayList<pObj> pobs=new ArrayList<>();
     static ArrayList<Double> xreturnlist=new ArrayList<>();
     static ArrayList<Double> yreturnlist=new ArrayList<>();
@@ -31,6 +32,18 @@ public class parse{
             validpoints.add(true);
         }
         String[] strings={str1,str2,str3};
+        //put a "*" in front of variables that don't have operand in front of them.
+        for(int j=0;j<strings.length;j++){
+           if(strings[j].length()>1){
+             for(int i=1;i<strings[j].length();i++){
+                //if before var there is a var or a number add a '*'
+                if((vars.indexOf(strings[j].substring(i-1,i))!=-1 || type1.indexOf(strings[j].substring(i-1,i))!=-1) && vars.indexOf(strings[j].substring(i,i+1))!=-1){
+                    strings[j]=strings[j].substring(0,i)+"*"+strings[j].substring(i);
+                }
+             }    
+           }
+        }
+        //replace x,y,z in other strings with the x,y and z expressions
         for(int j=0;j<strings.length;j++){
           for(int i=0;i<strings.length;i++){
               strings[j]=strings[j].replaceAll("x",xstring);
